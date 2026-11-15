@@ -1,12 +1,15 @@
 /*
-  TARMAC MOTORS — home page behaviour (preview mockup, no dependencies).
-  1. Inventory: keyword search + quick filters + sort, 2-up cards, photo swipe with arrows.
-  2. Mobile menu (<dialog>).
-  3. Forms: validated locally, nothing is sent (preview).
+  TARMAC MOTORS — shared page behaviour (preview mockup, no dependencies).
+  Runs on index.html (home), inventory.html (SRP) and vehicle.html (VDP); every block checks
+  that its elements exist.
+  1. Inventory grid: keyword search + quick filters + sort, 2-up cards, photo swipe with arrows.
+     Home shows 6 cards and links to the SRP; the SRP (data-limit="all") shows every car.
+  2. Mobile menu (<dialog>), nav highlight, header bar.
+  3. Side drawer (Ask / Text to Phone / Share) and preview forms: nothing is sent.
 */
 (() => {
   const cars = window.TARMAC_INVENTORY || [];
-  const HOME_LIMIT = 6; // cards shown before "Show all"
+  const HOME_LIMIT = 6; // cards shown on the home page before "Show all" (a link to the SRP)
 
   const grid = document.querySelector('[data-grid]');
   const search = document.querySelector('[data-search]');
@@ -14,7 +17,9 @@
   const sortSelect = document.querySelector('[data-sort]');
   const count = document.querySelector('[data-count]');
   const showAllBtn = document.querySelector('[data-show-all]');
-  let expanded = false;
+  const limit = grid && grid.dataset.limit === 'all' ? Infinity : HOME_LIMIT;
+  // the contact form lives on the home page; other pages link to it
+  const contactHref = document.getElementById('contact') ? '#contact' : 'index.html#contact';
 
   /* ---------- icons (one stroke set, 24px grid) ---------- */
   const ICON = {
@@ -75,9 +80,11 @@
     const title = name(c);
     const href = `vehicle.html?car=${encodeURIComponent(c.id)}`; // VDP: next page in the build
     const many = c.photos.length > 1;
+    // Clicking a photo opens the VDP (Alex). The links stay out of the tab order: the title and
+    // "Details" are the keyboard routes. A finger swipe scrolls the track and never counts as a click.
     const slides = c.photos.map((src, i) => `
-      <li><img src="${src}" alt="${i === 0 ? title : `${title}, photo ${i + 1}`}" width="1600" height="1067"
-        loading="${i === 0 ? 'eager' : 'lazy'}" decoding="async"></li>`).join('');
+      <li><a class="car__photo" href="${href}" tabindex="-1" aria-hidden="true"><img src="${src}" alt="${i === 0 ? title : `${title}, photo ${i + 1}`}" width="1600" height="1067"
+        loading="${i === 0 ? 'eager' : 'lazy'}" decoding="async"></a></li>`).join('');
 
     const status = c.status === 'sold' ? 'Sold' : c.status === 'coming-soon' ? 'Coming soon' : '';
     const price = c.status === 'sold' ? 'Sold' : c.price ? money(c.price) : 'Call for price';
@@ -106,6 +113,7 @@
         <button class="car__action" type="button" data-save="${c.id}" aria-pressed="${saved.has(c.id)}">${ICON.save}<span>${saved.has(c.id) ? 'Saved' : 'Save'}</span></button>
         <button class="car__action" type="button" data-drawer="text" data-car="${c.id}">${ICON.text}<span>Text to phone</span></button>
         <button class="car__action" type="button" data-drawer="share" data-car="${c.id}">${ICON.share}<span>Share</span></button>
+        <a class="car__action car__action--details" href="${href}" aria-label="Details: ${title}"><span>Details</span>${ICON.next}</a>
       </div>
     </li>`;
   };
@@ -119,7 +127,7 @@
       .sort(sorters[sortSelect.value] || sorters.featured);
 
     const browsing = !q && f === 'all';
-    const visible = browsing && !expanded ? sorted.slice(0, HOME_LIMIT) : sorted;
+    const visible = browsing ? sorted.slice(0, limit) : sorted;
 
     if (!sorted.length) {
       grid.innerHTML = `
@@ -128,7 +136,7 @@
           <p>The lot changes often. Clear the search, or tell us what you’re looking for and we’ll keep an eye out.</p>
           <div class="empty__actions">
             <button class="button button--secondary" type="button" data-clear>Clear search</button>
-            <a class="button button--primary" href="#contact" data-topic="Looking for a car">Tell us what you want</a>
+            <a class="button button--primary" href="${contactHref}" data-topic="Looking for a car">Tell us what you want</a>
           </div>
         </li>`;
     } else {
@@ -139,18 +147,16 @@
       ? `${cars.length} cars`
       : `${sorted.length} of ${cars.length} cars`;
 
-    const hidden = sorted.length - visible.length;
-    showAllBtn.hidden = hidden <= 0;
-    showAllBtn.textContent = 'Show all';
+    if (showAllBtn) showAllBtn.hidden = sorted.length - visible.length <= 0;
   };
 
   const escapeHTML = (s) => s.replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 
+  if (grid) {
   search.addEventListener('input', render);
   filters.addEventListener('change', render);
   sortSelect.addEventListener('change', render);
   document.querySelector('[data-finder]').addEventListener('submit', (e) => e.preventDefault());
-  showAllBtn.addEventListener('click', () => { expanded = true; render(); });
   grid.addEventListener('click', (e) => {
     if (e.target.closest('[data-clear]')) {
       search.value = '';
@@ -160,8 +166,10 @@
     }
   });
 
-  /* ---------- card actions: Save here; Text to phone / Share open the drawer (below) ---------- */
-  grid.addEventListener('click', (e) => {
+  }
+
+  /* ---------- Save (cards and the VDP); Text to phone / Share open the drawer (below) ---------- */
+  document.addEventListener('click', (e) => {
     const saveBtn = e.target.closest('[data-save]');
     if (saveBtn) {
       const id = saveBtn.dataset.save;
@@ -218,8 +226,8 @@
      to the first, prev on the first goes to the last. */
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  grid.addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-prev], [data-next]');
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-car] [data-prev], [data-car] [data-next]');
     if (!btn) return;
     const track = btn.closest('[data-car]').querySelector('[data-track]');
     const total = track.children.length;
@@ -230,7 +238,7 @@
   });
 
   // keep the counter in step with swipes and arrow clicks
-  grid.addEventListener('scroll', (e) => {
+  document.addEventListener('scroll', (e) => {
     const track = e.target;
     if (!track.matches || !track.matches('[data-track]')) return;
     const card = track.closest('[data-car]');
@@ -240,7 +248,7 @@
     if (counter) counter.textContent = `${i + 1} / ${total}`;
   }, true); // capture: scroll events do not bubble
 
-  render();
+  if (grid) render();
 
   /* ---------- mobile menu ---------- */
   const menu = document.getElementById('menu');
@@ -254,8 +262,9 @@
   const navList = document.querySelector('.nav__list');
   const pill = navList && navList.querySelector('.nav__pill');
   if (navList && pill) {
-    const links = [...navList.querySelectorAll('a[href^="#"]')];
-    let current = null;
+    const links = [...navList.querySelectorAll('a')];
+    const hashLinks = links.filter((a) => a.getAttribute('href').startsWith('#'));
+    let current = navList.querySelector('a[aria-current="page"]');   // SRP / VDP mark their page
     const moveTo = (a) => {
       if (!a) { pill.classList.remove('is-on'); return; }
       const box = navList.getBoundingClientRect(), r = a.getBoundingClientRect();
@@ -271,12 +280,12 @@
     navList.addEventListener('focusout', (e) => { if (!navList.contains(e.relatedTarget)) moveTo(current); });
 
     // scroll-spy: which nav target is in the middle band of the screen
-    const targets = links.map((a) => document.getElementById(a.getAttribute('href').slice(1))).filter(Boolean);
+    const targets = hashLinks.map((a) => document.getElementById(a.getAttribute('href').slice(1))).filter(Boolean);
     const spy = new IntersectionObserver((entries) => {
       entries.forEach((en) => {
         if (!en.isIntersecting) return;
-        const link = links.find((a) => a.getAttribute('href') === `#${en.target.id}`);
-        links.forEach((a) => a.removeAttribute('aria-current'));
+        const link = hashLinks.find((a) => a.getAttribute('href') === `#${en.target.id}`);
+        hashLinks.forEach((a) => a.removeAttribute('aria-current'));
         if (link) link.setAttribute('aria-current', 'true');
         current = link || null;
         if (!navList.matches(':hover')) moveTo(current);
@@ -287,19 +296,21 @@
     const hero = document.querySelector('.hero');
     if (hero) new IntersectionObserver(([en]) => {
       if (en.isIntersecting && en.intersectionRatio > 0.5) {
-        links.forEach((a) => a.removeAttribute('aria-current'));
+        hashLinks.forEach((a) => a.removeAttribute('aria-current'));
         current = null;
         if (!navList.matches(':hover')) moveTo(null);
       }
     }, { threshold: [0.5] }).observe(hero);
     window.addEventListener('resize', () => moveTo(navList.matches(':hover') ? null : current));
+    if (current) requestAnimationFrame(() => moveTo(current));
   }
 
   /* ---------- header bar appears after the page starts scrolling ---------- */
   const siteHeader = document.querySelector('.site-header');
   if (siteHeader) {
     document.documentElement.classList.add('js-header');
-    const onScroll = () => siteHeader.classList.toggle('is-scrolled', window.scrollY > 8);
+    const overHero = !!document.querySelector('.hero');   // only the home page starts transparent
+    const onScroll = () => siteHeader.classList.toggle('is-scrolled', !overHero || window.scrollY > 8);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
   }
@@ -341,7 +352,7 @@
     const body = drawer.querySelector('[data-drawer-body]');
     const titleEl = drawer.querySelector('#drawer-title');
     const quiet = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const TITLES = { services: 'Ask About Services', storage: 'Ask About Storage', text: 'Text to Phone', share: 'Share This Car' };
+    const TITLES = { services: 'Ask About Services', storage: 'Ask About Storage', text: 'Text to Phone', share: 'Share This Car', car: 'Ask About This Car' };
     let opener = null;
 
     const fill = (car) => {
@@ -354,6 +365,7 @@
       body.querySelectorAll('[data-car-price]').forEach((el) => { el.textContent = price; });
       body.querySelectorAll('[data-car-img]').forEach((el) => { el.src = car.photos[0]; });
       body.querySelectorAll('[data-car-message]').forEach((el) => { el.textContent = msg; });
+      body.querySelectorAll('[data-car-question]').forEach((el) => { el.value = `Hi, is the ${title} still available?`; });
       body.querySelectorAll('[data-car-sms]').forEach((el) => { el.href = `sms:?&body=${encodeURIComponent(msg)}`; });
       body.querySelectorAll('[data-car-mailto]').forEach((el) => {
         el.href = `mailto:?subject=${encodeURIComponent(`${title} at Tarmac Motors`)}&body=${encodeURIComponent(msg)}`;
@@ -396,6 +408,7 @@
       requestAnimationFrame(() => requestAnimationFrame(() => drawer.classList.add('is-open')));
     };
 
+    let closedByKey = false;
     const close = () => {
       if (!drawer.open) return;
       drawer.classList.add('is-closing');
@@ -405,7 +418,15 @@
         drawer.close();
         document.documentElement.classList.remove('has-drawer');
         if (window.tarmacLenis) window.tarmacLenis.start();
-        if (opener) opener.focus({ preventScroll: true });
+        if (opener) {
+          // back to the button that opened it; show the focus ring only if the visitor used the keyboard
+          if (!closedByKey) {
+            opener.classList.add('no-ring');
+            opener.addEventListener('blur', () => opener.classList.remove('no-ring'), { once: true });
+          }
+          opener.focus({ preventScroll: true });
+        }
+        closedByKey = false;
       };
       if (quiet.matches) { done(); return; }
       setTimeout(done, 420);   // = --drawer-out in site.css
@@ -420,7 +441,140 @@
       }
     });
     drawer.querySelector('[data-drawer-close]').addEventListener('click', close);
-    drawer.addEventListener('cancel', (e) => { e.preventDefault(); close(); });             // Esc
+    drawer.addEventListener('cancel', (e) => { e.preventDefault(); closedByKey = true; close(); });   // Esc
+    drawer.querySelector('[data-drawer-close]').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') closedByKey = true;
+    });
     drawer.addEventListener('click', (e) => { if (e.target === drawer) close(); });          // backdrop
   }
+
+  /* ---------- custom dropdowns (Alex: the browser's own list looked foreign) ----------
+     Each .field <select> gets a button + listbox in the site's style. The native <select> stays
+     in the form (visually hidden) and keeps the value, so filters, forms and reset work as before.
+     Keyboard: ↑/↓, Home/End, Enter/Space, Esc, type-ahead. Touch devices keep the native picker. */
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const CHEVRON = '<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"/></svg>';
+  const CHECK = '<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m5.5 12.5 4 4 9-9"/></svg>';
+  let ddCount = 0;
+  let openDD = null;
+
+  const enhanceSelect = (select) => {
+    if (select.dataset.dd) return;
+    select.dataset.dd = 'on';
+    const uid = `dd-${++ddCount}`;
+    const wrap = document.createElement('div');
+    wrap.className = 'dd';
+    const trigger = document.createElement('button');
+    trigger.type = 'button';
+    trigger.className = 'dd__trigger';
+    trigger.setAttribute('aria-haspopup', 'listbox');
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.setAttribute('aria-controls', `${uid}-list`);
+    const label = select.closest('label')?.querySelector('.field__label, .visually-hidden');
+    if (label) { label.id = label.id || `${uid}-label`; trigger.setAttribute('aria-labelledby', `${label.id} ${uid}-value`); }
+    trigger.innerHTML = `<span class="dd__value" id="${uid}-value"></span>${CHEVRON}`;
+    const list = document.createElement('ul');
+    list.className = 'dd__list';
+    list.id = `${uid}-list`;
+    list.setAttribute('role', 'listbox');
+    list.setAttribute('data-lenis-prevent', '');
+    if (label) list.setAttribute('aria-labelledby', label.id);
+    list.hidden = true;
+
+    select.classList.add('dd__native');
+    select.tabIndex = -1;
+    select.setAttribute('aria-hidden', 'true');
+    select.after(wrap);
+    wrap.append(trigger, list);
+
+    const options = () => [...list.children];
+    const build = () => {
+      // the empty "Select" option is the nothing-chosen state, not a choice: it stays out of the list
+      list.innerHTML = [...select.options].map((o, i) => (o.value === '' ? '' :
+        `<li role="option" id="${uid}-o${i}" data-i="${i}" tabindex="-1" aria-selected="${o.selected}">${CHECK}<span>${o.textContent}</span></li>`)).join('');
+    };
+    const sync = () => {
+      const o = select.options[select.selectedIndex];
+      trigger.querySelector('.dd__value').textContent = o ? o.textContent : '';
+      trigger.classList.toggle('is-placeholder', !!o && o.value === '');
+      options().forEach((li) => li.setAttribute('aria-selected', String(+li.dataset.i === select.selectedIndex)));
+    };
+    const focusOpt = (pos) => {   // position in the visible list
+      const opts = options();
+      const n = Math.max(0, Math.min(opts.length - 1, pos));
+      opts[n].focus({ preventScroll: true });
+      opts[n].scrollIntoView({ block: 'nearest' });
+    };
+    const posOf = (optionIndex) => Math.max(0, options().findIndex((li) => +li.dataset.i === optionIndex));
+    const open = () => {
+      if (openDD && openDD !== close) openDD();
+      build(); sync();
+      list.hidden = false;
+      trigger.setAttribute('aria-expanded', 'true');
+      wrap.classList.add('is-open');
+      // flip up when there isn't room below
+      const r = trigger.getBoundingClientRect();
+      wrap.classList.toggle('dd--up', window.innerHeight - r.bottom < Math.min(list.scrollHeight, 300) + 16 && r.top > 320);
+      focusOpt(posOf(select.selectedIndex));
+      openDD = close;
+    };
+    function close(refocus = true) {
+      if (list.hidden) return;
+      list.hidden = true;
+      trigger.setAttribute('aria-expanded', 'false');
+      wrap.classList.remove('is-open', 'dd--up');
+      if (refocus) trigger.focus({ preventScroll: true });
+      if (openDD === close) openDD = null;
+    }
+    const choose = (i) => {
+      if (select.selectedIndex !== i) {
+        select.selectedIndex = i;
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      sync();
+      close();
+    };
+
+    trigger.addEventListener('click', (e) => { e.preventDefault(); list.hidden ? open() : close(); });
+    trigger.addEventListener('keydown', (e) => {
+      if (['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(e.key)) { e.preventDefault(); open(); }
+    });
+    list.addEventListener('click', (e) => {
+      const li = e.target.closest('[role="option"]');
+      if (li) choose(+li.dataset.i);
+    });
+    let typed = '', typedAt = 0;
+    list.addEventListener('keydown', (e) => {
+      const cur = options().indexOf(document.activeElement);
+      if (e.key === 'ArrowDown') { e.preventDefault(); focusOpt(cur + 1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); focusOpt(cur - 1); }
+      else if (e.key === 'Home') { e.preventDefault(); focusOpt(0); }
+      else if (e.key === 'End') { e.preventDefault(); focusOpt(options().length - 1); }
+      else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (cur >= 0) choose(+options()[cur].dataset.i); }
+      else if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); close(); }
+      else if (e.key === 'Tab') { close(false); }
+      else if (e.key.length === 1) {   // type-ahead
+        const now = Date.now();
+        typed = (now - typedAt > 700 ? '' : typed) + e.key.toLowerCase();
+        typedAt = now;
+        const hit = options().findIndex((li) => li.textContent.trim().toLowerCase().startsWith(typed));
+        if (hit >= 0) focusOpt(hit);
+      }
+    });
+    select.addEventListener('change', sync);
+    select.form?.addEventListener('reset', () => setTimeout(sync));
+    sync();
+  };
+
+  document.addEventListener('pointerdown', (e) => {
+    if (openDD && !e.target.closest('.dd')) openDD(false);
+  });
+  window.addEventListener('resize', () => { if (openDD) openDD(false); });
+
+  const enhanceAll = (scope = document) => {
+    if (!finePointer.matches) return;
+    scope.querySelectorAll('.field select').forEach(enhanceSelect);
+  };
+  enhanceAll();
+  window.tarmacEnhanceSelects = enhanceAll;   // vdp / drawer content can call it after rendering
 })();

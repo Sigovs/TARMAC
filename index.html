@@ -37,7 +37,7 @@
     <nav class="nav" aria-label="Main">
       <ul class="nav__list">
         <li class="nav__pill" aria-hidden="true"></li>
-        <li><a href="#inventory"><span class="roll" data-text="Inventory"><span>Inventory</span></span></a></li>
+        <li><a href="inventory.html"><span class="roll" data-text="Inventory"><span>Inventory</span></span></a></li>
         <li><a href="#sell"><span class="roll" data-text="Sell Your Car"><span>Sell Your Car</span></span></a></li>
         <li><a href="#services"><span class="roll" data-text="Services"><span>Services</span></span></a></li>
         <li><a href="#storage"><span class="roll" data-text="Car Storage"><span>Car Storage</span></span></a></li>
@@ -68,7 +68,7 @@
     </button>
   </div>
   <ul class="menu__list">
-    <li><a href="#inventory" data-menu-link>Inventory</a></li>
+    <li><a href="inventory.html" data-menu-link>Inventory</a></li>
     <li><a href="#sell" data-menu-link>Sell Your Car</a></li>
     <li><a href="#services" data-menu-link>Services</a></li>
     <li><a href="#storage" data-menu-link>Car Storage</a></li>
@@ -185,6 +185,28 @@
   </div>
 </template>
 
+<template id="tpl-car">
+      <div class="drawer__car">
+        <img data-car-img src="" alt="" width="1600" height="1067">
+        <div><p class="drawer__car-title" data-car-title></p><p class="drawer__car-price" data-car-price></p></div>
+      </div>
+  <form class="form" data-preview-form data-success="Thanks, we’ll get back to you about this car soon.">
+    <div class="form__row">
+      <label class="field"><span class="field__label">First name</span><input name="first-name" autocomplete="given-name" required></label>
+      <label class="field"><span class="field__label">Phone</span><input name="phone" type="tel" autocomplete="tel" required></label>
+    </div>
+    <label class="field"><span class="field__label">Email <span class="field__opt">(optional)</span></span><input name="email" type="email" autocomplete="email"></label>
+    <label class="field"><span class="field__label">Message</span><textarea name="message" rows="3" data-car-question></textarea></label>
+    <button class="button button--primary button--block" type="submit">Send</button>
+    <p class="form__status" role="status" data-form-status></p>
+  </form>
+  <div class="drawer__alt">
+    <p class="drawer__alt-label">Or call us</p>
+    <a class="button button--secondary button--block" href="tel:+14052379363">(405) 237-9363</a>
+  </div>
+</template>
+
+
 
 <main id="top">
 
@@ -272,7 +294,7 @@
       <ul class="car-grid" data-grid></ul>
 
       <div class="inventory__more">
-        <button class="button button--secondary" type="button" data-show-all hidden></button>
+        <a class="button button--secondary" href="inventory.html" data-show-all hidden>Show all</a>
       </div>
     </div>
   </section>
@@ -523,7 +545,7 @@
     <nav aria-label="Footer">
       <h2 class="site-footer__label">Pages</h2>
       <ul class="site-footer__nav">
-        <li><a class="link" href="#inventory">Inventory</a></li>
+        <li><a class="link" href="inventory.html">Inventory</a></li>
         <li><a class="link" href="#sell">Sell Your Car</a></li>
         <li><a class="link" href="#services">Services</a></li>
         <li><a class="link" href="#storage">Car Storage</a></li>
