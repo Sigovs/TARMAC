@@ -1,0 +1,10 @@
+# Private client material and internal notes: not for a public repo
+*.pdf
+CLAUDE.md
+BRIEF.md
+build-plan.json
+
+# OS clutter
+.DS_Store
+Thumbs.db
+desktop.ini

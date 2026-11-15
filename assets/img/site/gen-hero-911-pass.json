@@ -1,0 +1,36 @@
+{
+  "file": "gen-hero-911-pass.jpg",
+  "origin": "synthetic (AI image edit)",
+  "model": "fal-ai/nano-banana-pro/edit",
+  "date": "2026-11-15",
+  "requested_by": "Alex (designer): a more aggressive hero, a different and more expensive-looking car; the Supra image stays as slide 2",
+  "sources": [
+    "assets/img/inv/2015-porsche-911-gts/01.jpg",
+    "assets/img/inv/2015-porsche-911-gts/03.jpg"
+  ],
+  "fal_request_id": "01a1deec-edfa-71d3-8a77-61268e1b7e23",
+  "variant": "image 1 of 1",
+  "output": "2752x1536 JPEG (after the plate-removal edit), resized to 2560 wide, q82",
+  "prompt": "Use the silver 2015 Porsche 911 Carrera GTS shown in the reference photos. Keep the car exactly as it is: the same 991 body shape, silver paint, black roof, black centre-lock style wheels, red brake calipers, round headlights and proportions. Do not restyle it.\n\nNew scene: an aggressive, cinematic automotive hero photograph, 16:9 wide. The 911 is attacking a sweeping mountain-pass bend, driving hard towards the camera, seen from a very low front 3/4 angle with the camera close to the road surface. Headlights on. The car is placed in the right half of the frame, slightly right of centre, about one third of the frame width, nose pointed towards the lower left. Strong sense of speed: motion blur in the spinning wheels and a streaked, panned background, the car body itself sharp.\n\nSetting: a dark asphalt mountain road just after rain, wet and reflective, at blue hour. Steep dark rocky slopes and a jagged mountain ridge behind, a deep cool blue-grey sky with a last thin band of cold light on the horizon. Moody, high contrast, cool neutral and steel-blue colour grade: no golden hour, no orange, yellow, sepia or warm brown tones. Road edge lines, if any, are plain white; no yellow lines.\n\nThe left half of the frame and the bottom third are calm, dark and low in detail (dark wet asphalt and shadowed slope) so a large headline can sit over the bottom-left.\n\nNo people, no other vehicles, no road signs, no buildings, no text, no logos, no watermarks. The front license plate area is completely blank, with no letters or numbers anywhere. Photorealistic professional automotive photography, realistic reflections, spray and shadows.",
+  "warning": "Client asked for no AI images and this car appears in the sample inventory with a price. Preview placeholder only: replace it with real Tarmac photography or video before launch.",
+  "edits": [
+    {
+      "date": "2026-11-15",
+      "model": "fal-ai/nano-banana-pro/edit",
+      "fal_request_id": "01a1def2-0704-7bd0-a13f-79a2fa45a521",
+      "reason": "Alex: remove the front license plate and its holder",
+      "prompt": "Edit this photo. Remove the front license plate AND its license plate holder/bracket completely from the Porsche's front bumper. Where the plate was, show the clean, smooth front bumper of a Porsche 911 991 GTS with no plate fitted: continuous silver body-coloured bumper surface with the natural shape, shading and reflections of the paint around it, continuous with the bumper on both sides. No rectangle, no mounting holes, no blank panel, no blur.\n\nKeep everything else exactly identical: same car, same angle, same framing and composition, same headlights, wheels, red calipers, road, rocks, sky, lighting, colours and motion blur. Do not add any text, logos or watermarks."
+    },
+    {
+      "date": "2026-11-15",
+      "model": "fal-ai/nano-banana-pro/edit",
+      "fal_request_id": "01a1df36-a323-7242-8c82-bd5a75090271",
+      "reason": "Alex: Tarmac sells 80s, 90s and 2000s cars; the 2015 991 GTS was out of era. Car swapped for the 2006 911 Carrera S (997) in Guards Red from the inventory.",
+      "sources": [
+        "assets/img/inv/2006-porsche-911-carrera-s/01.jpg"
+      ],
+      "prompt": "Edit the first photograph. Replace ONLY the car with the 2006 Porsche 911 Carrera S (997 generation) shown in the second photograph: Guards Red, 997 oval headlights, its front bumper, silver five-spoke wheels, red calipers; do not modernise it. Keep everything else exactly the same (pose, road, rocks, sky, blue-hour grade, motion blur, reflections). Deep true red, not orange. No plate, no plate holder, no text, no extra logos."
+    }
+  ],
+  "note": "Now shows the 2006 911 Carrera S (997, Guards Red), a car in the sample inventory. Client asked for no AI images and this car appears in the sample inventory with a price. Preview placeholder only: replace it with real Tarmac photography or video before launch."
+}

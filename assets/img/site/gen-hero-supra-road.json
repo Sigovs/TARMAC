@@ -1,0 +1,16 @@
+{
+  "file": "gen-hero-supra-road.jpg",
+  "origin": "synthetic (AI image edit)",
+  "model": "fal-ai/nano-banana-pro/edit",
+  "date": "2026-11-15",
+  "requested_by": "Alex (designer), for the preview mockup hero",
+  "sources": [
+    "assets/img/inv/1998-toyota-supra-turbo/01.jpg",
+    "assets/img/inv/1998-toyota-supra-turbo/07.jpg"
+  ],
+  "fal_request_id": "01a1dea1-6bf4-70f0-9237-07dd7e9999d6",
+  "variant": "image 1 of 2 (second rejected: broken road geometry, yellow line)",
+  "output": "2752x1536 JPEG, resized to 2560 wide, q82",
+  "prompt": "Use the silver 1998 Toyota Supra Turbo shown in the reference photos. Keep the car exactly as it is: the same body shape, silver paint, tall rear wing, five-spoke silver wheels, headlights and proportions. Do not restyle it.\n\nNew scene: the Supra driving towards the camera along an empty, winding two-lane country road through a summer landscape. Wide cinematic landscape photograph, 16:9. The road enters at the bottom-left foreground as calm, smooth dark asphalt and sweeps in a gentle S-curve up to the middle of the frame, where the car is, then continues into the distance. The car is seen from a 3/4 front angle, mid-distance, small in the frame: about one sixth of the frame width, placed right of centre, slightly above the vertical middle. Lots of open space and air on both sides of the car.\n\nSummer countryside: rolling green fields, long grass along the verges, a few scattered broadleaf trees, a soft distant tree line, wide clear blue sky with a few thin clouds. Natural early-afternoon daylight, crisp and clean, cool neutral colour grade: no golden hour, no orange, sepia or warm brown tones. Very slight motion blur on the wheels only, everything else sharp.\n\nThe bottom third of the frame is calm and even, mostly smooth asphalt with little detail, so headline text can sit over it.\n\nNo people, no other vehicles, no road signs, no road markings with letters, no buildings, no text, no logos, no watermarks. The license plate and its frame are completely blank, with no letters or numbers anywhere. Photorealistic professional automotive photography, realistic reflections and shadows.",
+  "warning": "Client asked for no AI images and this car appears in the sample inventory with a price. This is a preview placeholder only: replace it with real Tarmac photography or video before launch."
+}

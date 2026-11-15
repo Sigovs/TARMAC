@@ -1,0 +1,15 @@
+{
+  "file": "gen-sell-keys-bluehour.jpg",
+  "origin": "synthetic (AI image edit)",
+  "model": "fal-ai/nano-banana-pro/edit",
+  "date": "2026-11-15",
+  "requested_by": "Alex: Sell Your Car in the new (hero) style",
+  "sources": [
+    "assets/img/site/gen-sell-keys.jpg (content: the key handover)",
+    "assets/img/site/gen-hero-911-pass.jpg (style reference only)"
+  ],
+  "fal_request_id": "01a1df0b-ae1b-76d3-89c3-d7fd3b59befa",
+  "prompt": "Create a new photograph of the moment a car changes hands, in exactly the photographic style of the second image (moody cinematic automotive campaign at blue hour: wet asphalt after rain, cold steel-blue and graphite colour grade, desaturated, high contrast, rich blacks, soft cold light from the sky, small hard highlights). Content, taken from the first image: close-up of one person's hand passing a single car key into another person's open hand; both wear plain dark sleeves; only hands and forearms are visible, no faces. New setting: outdoors at blue hour, just after rain. Behind the hands, very softly out of focus, the glossy wet flank and front of a dark car with its headlights on, reflected in the wet asphalt; the car is generic and not identifiable (no badges, no grille detail, no brand). Fine raindrops on the dark paint. Composition, square 1:1: the hands and key sit in the centre of the frame, slightly above the middle. The left third and the bottom third are calm, dark and low in detail. Shallow depth of field. No golden hour, no orange, amber, yellow, sepia or warm brown tones; natural but cool skin tones. No license plates, no text, no paperwork, no logos, no key-fob branding, no watermarks. Photorealistic professional photography.",
+  "output": "2048x2048 JPEG, resized to 1800, q82",
+  "note": "Generic people (hands only) and a generic, unbadged car: it stands for the seller's car, not a listing. Client asked for no AI images: preview placeholder only."
+}

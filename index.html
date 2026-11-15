@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tarmac Motors — Oklahoma City</title>
+  <meta name="description" content="We buy, sell and trade cars worth getting excited about: classics, unique daily drivers, oddballs and everything in between. 8401 N Classen Blvd, Oklahoma City.">
+  <meta name="theme-color" content="#101113">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23101113'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' fill='%23eef0f2'%3ET%3C/text%3E%3C/svg%3E">
+
+  <!-- Type: Marcellus = temporary wordmark only (closest free match to the building sign).
+       Archivo (variable width + weight) = everything else.
+       Photos and listings are placeholders: see assets/img/PROVENANCE.md and assets/js/data.js. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Marcellus&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/site.css">
+  <!-- Smooth scrolling (Lenis, pinned version). See assets/js/smooth-scroll.js -->
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.27/dist/lenis.css">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/animejs@4.5.0/+esm">
+  <!-- Motion gate: page motion runs only when the visitor hasn't asked for reduced motion. -->
+  <script>if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-motion');</script>
+</head>
+<body>
+
+<!-- ============ HEADER (Superior pattern: wordmark left, nav right with "/" separators) ============ -->
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="wordmark" href="#top" aria-label="Tarmac Motors, home">
+      <!-- Logo: Alex's SVG (assets/img/brand/tarmac-logo.svg, copied from /logo.svg), trial 2026-11-15. -->
+      <img class="wordmark__logo" src="assets/img/brand/tarmac-logo.svg" alt="" width="367" height="79">
+    </a>
+
+    <nav class="nav" aria-label="Main">
+      <ul class="nav__list">
+        <li class="nav__pill" aria-hidden="true"></li>
+        <li><a href="#inventory"><span class="roll" data-text="Inventory"><span>Inventory</span></span></a></li>
+        <li><a href="#sell"><span class="roll" data-text="Sell Your Car"><span>Sell Your Car</span></span></a></li>
+        <li><a href="#services"><span class="roll" data-text="Services"><span>Services</span></span></a></li>
+        <li><a href="#storage"><span class="roll" data-text="Car Storage"><span>Car Storage</span></span></a></li>
+        <li><a href="#about"><span class="roll" data-text="About Us"><span>About Us</span></span></a></li>
+        <li><a href="#contact"><span class="roll" data-text="Contact"><span>Contact</span></span></a></li>
+      </ul>
+    </nav>
+
+    <a class="header-phone" href="tel:+14052379363">
+      <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M6.6 3.5h3l1.5 4.2-2 1.3a11 11 0 0 0 5.9 5.9l1.3-2 4.2 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2Z"/></svg>
+      <span class="header-phone__number">(405) 237-9363</span>
+    </a>
+
+    <button class="menu-button" type="button" aria-haspopup="dialog" aria-controls="menu" data-menu-open>
+      <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 8h16M4 16h16"/></svg>
+      <span>Menu</span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile menu (native <dialog>: focus trap + Esc for free) -->
+<dialog class="menu" id="menu" aria-label="Menu" data-lenis-prevent>
+  <div class="menu__top">
+    <span class="wordmark__name">Tarmac Motors</span>
+    <button class="menu-button" type="button" data-menu-close>
+      <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      <span>Close</span>
+    </button>
+  </div>
+  <ul class="menu__list">
+    <li><a href="#inventory" data-menu-link>Inventory</a></li>
+    <li><a href="#sell" data-menu-link>Sell Your Car</a></li>
+    <li><a href="#services" data-menu-link>Services</a></li>
+    <li><a href="#storage" data-menu-link>Car Storage</a></li>
+    <li><a href="#about" data-menu-link>About Us</a></li>
+    <li><a href="#contact" data-menu-link>Contact</a></li>
+  </ul>
+  <div class="menu__contact">
+    <a class="button button--primary button--block" href="tel:+14052379363">Call (405) 237-9363</a>
+    <p>8401 N Classen Blvd<br>Oklahoma City, OK 73114</p>
+  </div>
+</dialog>
+
+<main id="top">
+
+  <!-- ============ HERO (photo now, video later) ============ -->
+  <div class="overlay"><!-- overlay 1: the first section pins, the next slides over it as a rounded sheet -->
+  <section class="hero overlay__pin" aria-labelledby="hero-title">
+    <!-- Hero slides: switched by hand only (prev / next), never autoplay: the client disliked
+         autoplay slideshows (Zoom 00:37:17). Crossfade, no sliding. See home.js "hero slides".
+         Both images are GENERATED placeholders (AI edits of our inventory photos), see the .json
+         sidecars. Client asked for no AI images: replace with Tarmac photography or the hero video before launch. -->
+    <figure class="hero__media" data-hero-slides>
+      <!-- data-title / data-lede: the copy shown with each slide, in the client's own words
+           (TikTok bio: "We buy, sell, trade cars worth getting excited about — classics, unique daily drivers, oddballs & everything in between."). -->
+      <img class="hero__slide hero__slide--911 is-active" src="assets/img/site/gen-hero-911-pass.jpg"
+           data-title="Cars worth getting excited about." data-lede="Classics, unique daily drivers, oddballs and everything in between."
+           alt="Red Porsche 911 Carrera S cornering on a wet mountain road at dusk"
+           width="2560" height="1429" fetchpriority="high">
+      <img class="hero__slide hero__slide--supra" src="assets/img/site/gen-hero-supra-road.jpg"
+           data-title="Unique daily drivers and oddballs." data-lede="We buy, sell and trade classics and everything in between."
+           alt="Silver Toyota Supra on a winding country road through summer fields"
+           width="2560" height="1429" loading="lazy" aria-hidden="true">
+    </figure>
+
+    <div class="hero__body container">
+      <div class="hero__main">
+        <h1 class="hero__title" id="hero-title" data-intro>Cars worth getting excited about.</h1>
+        <div class="hero__pager" role="group" aria-label="Hero photos" data-hero-pager hidden>
+          <button type="button" class="hero__pager-btn" data-hero-prev aria-label="Previous photo"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m14.5 6-6 6 6 6"/></svg></button>
+          <span class="hero__count" aria-live="polite"><span data-hero-index>01</span> / <span data-hero-total>02</span></span>
+          <button type="button" class="hero__pager-btn" data-hero-next aria-label="Next photo"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6"/></svg></button>
+        </div>
+      </div>
+      <div class="hero__side">
+        <p class="hero__lede">Classics, unique daily drivers, oddballs and everything in between.</p>
+        <div class="hero__actions" data-intro>
+          <a class="button button--primary" href="#inventory">Inventory</a>
+          <a class="button button--secondary" href="#sell">Sell Your Car</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INVENTORY ============
+       Intro line + keyword search + quick filters (client: older buyers need both).
+       Cards: 2 per row, photo swipe with arrows, transmission shown as icon + word. -->
+  <section class="section inventory overlay__sheet fx-ambient" id="inventory" aria-labelledby="inventory-title">
+    <div class="container">
+      <header class="section-head">
+        <h2 class="section-title" id="inventory-title">Inventory</h2>
+        <p class="section-intro">Weekend cars from the ’80s, ’90s and 2000s, some older classics, and plenty of manuals.</p>
+      </header>
+
+      <form class="finder" role="search" data-finder>
+        <label class="field field--search">
+          <span class="visually-hidden">Search inventory</span>
+          <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+          <input type="search" name="q" placeholder="Search make, model or year" autocomplete="off" data-search>
+        </label>
+
+        <fieldset class="chips" data-filters>
+          <legend class="visually-hidden">Quick filters</legend>
+          <label class="chip"><input type="radio" name="filter" value="all" checked><span>All cars</span></label>
+          <label class="chip"><input type="radio" name="filter" value="manual"><span>Manual</span></label>
+          <label class="chip"><input type="radio" name="filter" value="pre80"><span>Before 1980</span></label>
+          <label class="chip"><input type="radio" name="filter" value="80s"><span>1980s</span></label>
+          <label class="chip"><input type="radio" name="filter" value="90s"><span>1990s</span></label>
+          <label class="chip"><input type="radio" name="filter" value="00s"><span>2000s and newer</span></label>
+        </fieldset>
+
+        <div class="finder__meta">
+          <p class="finder__count" aria-live="polite" data-count></p>
+          <label class="field field--select">
+            <span class="field__label">Sort</span>
+            <select name="sort" data-sort>
+              <option value="featured">Featured</option>
+              <option value="year-desc">Year, newest first</option>
+              <option value="year-asc">Year, oldest first</option>
+              <option value="price-asc">Price, low to high</option>
+              <option value="price-desc">Price, high to low</option>
+            </select>
+          </label>
+        </div>
+      </form>
+
+      <ul class="car-grid" data-grid></ul>
+
+      <div class="inventory__more">
+        <button class="button button--secondary" type="button" data-show-all hidden></button>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <!-- ============ TRUST BAND (Superior: heading + 4 columns over a full-bleed photo) ============
+       Heading = the client's own words (TikTok bio). Column copy is SIMULATED from the brief
+       (VIN decoding, open descriptions, video, trades) — confirm with the client. -->
+  <div class="overlay"><!-- overlay 2: the first section pins, the next slides over it as a rounded sheet -->
+  <section class="band band--trust overlay__pin" aria-labelledby="trust-title">
+    <figure class="band__media">
+      <!-- GENERATED placeholder, see assets/img/site/gen-trust-lincoln-prairie.json (client asked for no AI images: replace before launch).
+           Same blue-hour campaign style as the hero, different car and landscape (Alex). -->
+      <img class="band__img--trust" src="assets/img/site/gen-trust-lincoln-prairie.jpg" alt="" loading="lazy" width="2560" height="1429">
+    </figure>
+    <div class="container">
+      <h2 class="band__title" id="trust-title">Driven by passion.<br>Built on trust.</h2>
+      <ul class="band__cols">
+        <li><span class="band__icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M4 6v12M7 6v12M9.5 6v12M13 6v12M15.5 6v12M20 6v12M17.5 6v12"/></svg></span><h3>VIN Decoded</h3><p>Factory options and specs from the VIN.</p></li>
+        <li><span class="band__icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4"/></svg></span><h3>Full Descriptions</h3><p>Everything we know about the car, up front.</p></li>
+        <li><span class="band__icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M4 8.5h3l1.8-2.5h6.4L17 8.5h3V19H4z"/><circle cx="12" cy="13.2" r="3.4"/></svg></span><h3>Photos &amp; Video</h3><p>A proper walkaround of every car on the lot.</p></li>
+        <li><span class="band__icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M5 8h13l-3.5-3.5M19 16H6l3.5 3.5"/></svg></span><h3>Trades Welcome</h3><p>Bring yours in toward the next one.</p></li>
+      </ul>
+      <a class="button button--secondary band__cta" href="#inventory">View Inventory</a>
+    </div>
+  </section>
+
+  <!-- ============ SELL YOUR CAR (Superior: "How it works" 01 / 02 / 03 + short form) ============
+       Alex's direction (2026-11-15): heading and the three steps as a ruled list on the left,
+       the offer form on a light card on the right, the one light surface on the page. -->
+  <section class="section sell has-media overlay__sheet" id="sell" aria-labelledby="sell-title">
+    <!-- Half-bleed photo behind the steps (left), faded into the ground. Placeholder: see PROVENANCE.md -->
+    <figure class="section-media section-media--left" aria-hidden="true">
+      <!-- GENERATED placeholder: inside the warehouse, a customer's car driving in through the open door at blue hour
+           (the reverse view of the About image). See assets/img/site/gen-sell-drive-in.json -->
+      <img src="assets/img/site/gen-sell-drive-in.jpg" alt="" loading="lazy" width="1800" height="1800">
+    </figure>
+    <div class="container sell__grid">
+      <div class="sell__copy">
+        <h2 class="section-title" id="sell-title">Sell Your Car.<br>How it Works</h2>
+        <!-- Step lines are SIMULATED from the form fields and the step titles (no timings or promises): confirm with the client. -->
+        <ol class="steps">
+          <li><span class="steps__n">01</span><span class="steps__body"><span class="steps__t">Send Us the Details</span><span class="steps__d">Year, make, model, mileage and the best way to reach you.</span></span></li>
+          <li><span class="steps__n">02</span><span class="steps__body"><span class="steps__t">We Look the Car Over</span><span class="steps__d">We see the car in person before we talk numbers.</span></span></li>
+          <li><span class="steps__n">03</span><span class="steps__body"><span class="steps__t">Sell It or Trade It</span><span class="steps__d">Take the offer, or put it toward your next car.</span></span></li>
+        </ol>
+      </div>
+
+      <form class="panel panel--light form" data-preview-form aria-labelledby="sell-form-title">
+        <h3 class="form__title" id="sell-form-title">Get your offer</h3>
+        <div class="form__row form__row--3">
+          <label class="field"><span class="field__label">Year</span>
+            <!-- Options (next model year down to 1950, then "Older") are filled by home.js -->
+            <select name="year" required data-year-select><option value="">Select</option></select>
+          </label>
+          <label class="field"><span class="field__label">Make</span><input name="make" required></label>
+          <label class="field"><span class="field__label">Model</span><input name="model" required></label>
+        </div>
+        <div class="form__row">
+          <label class="field"><span class="field__label">Mileage</span><input name="mileage" inputmode="numeric"></label>
+          <label class="field"><span class="field__label">Transmission</span>
+            <select name="transmission"><option value="">Select</option><option>Manual</option><option>Automatic</option></select>
+          </label>
+        </div>
+        <div class="form__row">
+          <label class="field"><span class="field__label">Name</span><input name="name" autocomplete="name" required></label>
+          <label class="field"><span class="field__label">Phone</span><input name="phone" type="tel" autocomplete="tel" required></label>
+        </div>
+        <button class="button button--dark button--block" type="submit">Submit</button>
+        <p class="form__status" role="status" data-form-status></p>
+      </form>
+    </div>
+  </section>
+  </div>
+
+  <!-- ============ SERVICES BAND (Superior: heading + columns over a full-bleed photo) ============
+       Done through a partner shop ("yes, with an asterisk"). Pricing on request.
+       Photo: generic detailing studio at blue hour (placeholder, see PROVENANCE.md). Both bands fill the screen. -->
+  <div class="overlay"><!-- overlay 3: the first section pins, the next slides over it as a rounded sheet -->
+  <section class="band band--services overlay__pin" id="services" aria-labelledby="services-title">
+    <figure class="band__media">
+      <!-- GENERATED placeholder, see assets/img/site/gen-services-studio.json (generic studio and people, not the partner shop; replace before launch) -->
+      <img class="band__img--services" src="assets/img/site/gen-services-studio.jpg" alt="" loading="lazy" width="2560" height="1429">
+    </figure>
+    <div class="container">
+      <h2 class="band__title" id="services-title">Services</h2>
+      <p class="band__sub">Through our partner shop. Pricing on request.</p>
+      <ul class="band__cols band__cols--3">
+        <li><span class="band__icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M12 3.5s6 6.4 6 10.4a6 6 0 0 1-12 0c0-4 6-10.4 6-10.4Z"/><path d="M9.2 14.5a2.9 2.9 0 0 0 2.8 2.6"/></svg></span><h3>Ceramic Coating</h3><p>Long-term paint protection.</p></li>
+        <li><span class="band__icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M12 3 19 6v5.6c0 4.4-2.9 7.6-7 9.4-4.1-1.8-7-5-7-9.4V6z"/></svg></span><h3>Paint Protection Film</h3><p>Clear film against chips.</p></li>
+        <li><span class="band__icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M12 4 3.5 8.3 12 12.6l8.5-4.3z"/><path d="m3.5 12.3 8.5 4.3 8.5-4.3M3.5 16.2l8.5 4.3 8.5-4.3"/></svg></span><h3>Custom Wraps</h3><p>New colour, original paint underneath.</p></li>
+      </ul>
+      <a class="button button--secondary band__cta" href="#contact" data-topic="Services">Ask About Services</a>
+    </div>
+  </section>
+
+  <!-- ============ CAR STORAGE (Superior: centred heading, CTA, wide image; no price) ============ -->
+  <section class="section storage overlay__sheet" id="storage" aria-labelledby="storage-title">
+    <div class="container storage__inner">
+      <h2 class="section-title" id="storage-title">Car Storage</h2>
+      <p class="section-intro">Room for your car between drives. Ask us about space and terms.</p>
+      <a class="button button--primary" href="#contact" data-topic="Car storage">Ask About Storage</a>
+    </div>
+    <!-- Full-bleed photo ground (Alex: alive, spacious, a warehouse, people).
+         GENERATED placeholder, see assets/img/site/gen-storage-warehouse.json: replace with the real storage before launch. -->
+    <figure class="storage__media" aria-hidden="true">
+      <img src="assets/img/site/gen-storage-warehouse.jpg" alt="" loading="lazy" width="2560" height="1429">
+    </figure>
+  </section>
+  </div>
+
+  <!-- ============ ABOUT + CONTACT ============ -->
+  <section class="section about has-media" id="about" aria-labelledby="about-title">
+    <!-- Half-bleed photo behind the contact form (right), mirrored from Sell. Placeholder: see PROVENANCE.md -->
+    <figure class="section-media section-media--right" aria-hidden="true">
+      <!-- GENERATED placeholder: a generic warehouse car dealer at blue hour, NOT Tarmac's building (see gen-about-warehouse.json).
+           Must be replaced with a photo of the real building before launch: next to the address it reads as their premises. -->
+      <img src="assets/img/site/gen-about-warehouse.jpg" alt="" loading="lazy" width="1800" height="1800">
+    </figure>
+    <div class="container about__grid">
+      <div class="about__copy">
+        <h2 class="section-title" id="about-title">About Us</h2>
+        <p class="about__text">We buy, sell, trade cars worth getting excited about — classics, unique daily drivers, oddballs &amp; everything in between.</p>
+
+        <dl class="facts">
+          <div><dt>Visit</dt><dd>8401 N Classen Blvd<br>Oklahoma City, OK 73114<br>
+            <a class="link" href="https://www.google.com/maps/search/?api=1&query=8401+N+Classen+Blvd+Oklahoma+City+OK+73114" target="_blank" rel="noopener">Get directions</a></dd></div>
+          <div><dt>Call</dt><dd><a class="link" href="tel:+14052379363">(405) 237-9363</a></dd></div>
+          <!-- Hours are SIMULATED for the preview; confirm with the client. -->
+          <div><dt>Hours</dt><dd>
+            <table class="hours">
+              <tr><th scope="row">Mon – Fri</th><td>10 am – 6 pm</td></tr>
+              <tr><th scope="row">Saturday</th><td>10 am – 4 pm</td></tr>
+              <tr><th scope="row">Sunday</th><td>By appointment</td></tr>
+            </table>
+          </dd></div>
+        </dl>
+      </div>
+
+      <form class="panel panel--glass form" id="contact" data-preview-form aria-labelledby="contact-title">
+        <h3 class="form__title" id="contact-title">Contact</h3>
+        <div class="form__row form__row--2">
+          <label class="field"><span class="field__label">First name</span><input name="first" autocomplete="given-name" required></label>
+          <label class="field"><span class="field__label">Last name</span><input name="last" autocomplete="family-name" required></label>
+        </div>
+        <div class="form__row form__row--2">
+          <label class="field"><span class="field__label">Phone</span><input name="phone" type="tel" autocomplete="tel" required></label>
+          <label class="field"><span class="field__label">Best time to reach you</span>
+            <select name="best-time"><option>Any time</option><option>Morning</option><option>Afternoon</option><option>Evening</option></select>
+          </label>
+        </div>
+        <label class="field"><span class="field__label">Message</span><textarea name="message" rows="4" required data-message></textarea></label>
+        <button class="button button--primary button--block" type="submit">Send</button>
+        <p class="form__status" role="status" data-form-status></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ SOCIAL (simulated feed; live site pulls the account) ============ -->
+  <section class="section social fx-ambient" aria-labelledby="social-title">
+    <div class="container">
+      <header class="social__head">
+        <h2 class="section-title" id="social-title">@tarmacmotors</h2>
+        <div class="social__links">
+          <!-- Instagram handle assumed to match TikTok (@tarmacmotors): confirm with the client. -->
+          <a class="button button--secondary" href="https://www.instagram.com/tarmacmotors/" target="_blank" rel="noopener"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg> Instagram</a>
+          <a class="button button--secondary" href="https://www.tiktok.com/@tarmacmotors" target="_blank" rel="noopener"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c.4 2.6 2.2 4.3 5 4.5"/></svg> TikTok</a>
+        </div>
+      </header>
+
+      <!-- SIMULATED feed (our placeholder photos). On the platform: the Instagram API pulls the latest posts. -->
+      <ul class="feed">
+        <li class="feed__item feed__item--big">
+          <a href="https://www.instagram.com/tarmacmotors/" target="_blank" rel="noopener" aria-label="View on Instagram: 1983 Camaro in orange and white race livery, side view">
+            <img src="assets/img/inv/1983-chevrolet-camaro-yenko-imsa/04.jpg" alt="1983 Camaro in orange and white race livery, side view" loading="lazy" width="1600" height="1067">
+            <span class="feed__ig"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg></span>
+            <span class="feed__caption" aria-hidden="true">View on Instagram</span>
+          </a>
+        </li>
+        <li class="feed__item feed__item--wide">
+          <a href="https://www.instagram.com/tarmacmotors/" target="_blank" rel="noopener" aria-label="View on Instagram: Black 1973 Lincoln Continental Town Coupe in profile">
+            <img src="assets/img/inv/1973-lincoln-continental-town-coupe/07.jpg" alt="Black 1973 Lincoln Continental Town Coupe in profile" loading="lazy" width="1600" height="1067">
+            <span class="feed__ig"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg></span>
+            <span class="feed__caption" aria-hidden="true">View on Instagram</span>
+          </a>
+        </li>
+        <li class="feed__item">
+          <a href="https://www.instagram.com/tarmacmotors/" target="_blank" rel="noopener" aria-label="View on Instagram: XLR badge on a blue Cadillac">
+            <img src="assets/img/inv/2005-cadillac-xlr/06.jpg" alt="XLR badge on a blue Cadillac" loading="lazy" width="1600" height="1067">
+            <span class="feed__ig"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg></span>
+            <span class="feed__caption" aria-hidden="true">View on Instagram</span>
+          </a>
+        </li>
+        <li class="feed__item feed__item--tall">
+          <a href="https://www.instagram.com/tarmacmotors/" target="_blank" rel="noopener" aria-label="View on Instagram: White convertible top of a 1995 Corvette Pace Car">
+            <img src="assets/img/inv/1995-chevrolet-corvette-pace-car/06.jpg" alt="White convertible top of a 1995 Corvette Pace Car" loading="lazy" width="1600" height="1067">
+            <span class="feed__ig"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg></span>
+            <span class="feed__caption" aria-hidden="true">View on Instagram</span>
+          </a>
+        </li>
+        <li class="feed__item">
+          <a href="https://www.instagram.com/tarmacmotors/" target="_blank" rel="noopener" aria-label="View on Instagram: Chrome headlight and grille of a cream 1963 Ford Falcon">
+            <img src="assets/img/inv/1963-ford-falcon/05.jpg" alt="Chrome headlight and grille of a cream 1963 Ford Falcon" loading="lazy" width="1600" height="1067">
+            <span class="feed__ig"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg></span>
+            <span class="feed__caption" aria-hidden="true">View on Instagram</span>
+          </a>
+        </li>
+        <li class="feed__item feed__item--wide">
+          <a href="https://www.instagram.com/tarmacmotors/" target="_blank" rel="noopener" aria-label="View on Instagram: 1995 Corvette Pace Car convertible from the front">
+            <img src="assets/img/inv/1995-chevrolet-corvette-pace-car/04.jpg" alt="1995 Corvette Pace Car convertible from the front" loading="lazy" width="1600" height="1067">
+            <span class="feed__ig"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg></span>
+            <span class="feed__caption" aria-hidden="true">View on Instagram</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer fx-ambient">
+  <!-- Full-width map, black and white (CSS filter). Google Maps embed without a key: fine for the
+       preview; AAN can swap in their own map. The address is public (intake form, shown on the page). -->
+  <div class="footer-map">
+    <iframe title="Map: Tarmac Motors, 8401 N Classen Blvd, Oklahoma City" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+      src="https://maps.google.com/maps?q=8401%20N%20Classen%20Blvd%2C%20Oklahoma%20City%2C%20OK%2073114&amp;z=15&amp;output=embed"></iframe>
+    <div class="footer-map__card container">
+      <div class="footer-map__chip">
+        <span class="footer-map__label">Visit</span>
+        <span class="footer-map__addr">8401 N Classen Blvd, Oklahoma City, OK 73114</span>
+        <a class="button button--primary" href="https://www.google.com/maps/search/?api=1&amp;query=8401+N+Classen+Blvd+Oklahoma+City+OK+73114" target="_blank" rel="noopener">Get directions</a>
+      </div>
+    </div>
+  </div>
+  <div class="container site-footer__grid">
+    <div class="site-footer__brand">
+      <img class="wordmark__logo wordmark__logo--large" src="assets/img/brand/tarmac-logo.svg" alt="Tarmac Motors" width="367" height="79">
+    </div>
+    <div>
+      <h2 class="site-footer__label">Visit</h2>
+      <p>8401 N Classen Blvd<br>Oklahoma City, OK 73114</p>
+    </div>
+    <div>
+      <h2 class="site-footer__label">Contact</h2>
+      <p><a class="link" href="tel:+14052379363">(405) 237-9363</a><br><a class="link" href="#contact">Send a message</a></p>
+    </div>
+    <nav aria-label="Footer">
+      <h2 class="site-footer__label">Pages</h2>
+      <ul class="site-footer__nav">
+        <li><a class="link" href="#inventory">Inventory</a></li>
+        <li><a class="link" href="#sell">Sell Your Car</a></li>
+        <li><a class="link" href="#services">Services</a></li>
+        <li><a class="link" href="#storage">Car Storage</a></li>
+        <li><a class="link" href="#about">About Us</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="container site-footer__base">
+    <p>© 2026 Tarmac Motors, LLC</p>
+    <p>Powered by All Auto Network</p>
+  </div>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/home.js"></script>
+<script src="https://unpkg.com/lenis@1.3.27/dist/lenis.min.js"></script>
+<script src="assets/js/smooth-scroll.js"></script>
+<script src="assets/js/overlays.js"></script>
+<!-- Page motion (Anime.js 4.5.0, ES module). If it hasn't started after 2.5 s, show the static page. -->
+<script type="module" src="assets/js/motion.js"></script>
+<script>
+  setTimeout(function () {
+    if (!document.documentElement.classList.contains('anime-on')) document.documentElement.classList.remove('js-motion');
+  }, 2500);
+</script>
+</body>
+</html>

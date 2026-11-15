@@ -1,0 +1,14 @@
+{
+  "file": "gen-about-warehouse.jpg",
+  "origin": "synthetic (AI image edit)",
+  "model": "fal-ai/nano-banana-pro/edit",
+  "date": "2026-11-15",
+  "requested_by": "Alex",
+  "sources": [
+    "assets/img/site/gen-hero-911-pass.jpg (style reference only)"
+  ],
+  "fal_request_id": "01a1df27-8017-7ec0-8608-25b565af1c57",
+  "prompt_summary": "Outside of an independent classic and enthusiast car dealer in a converted brick-and-steel warehouse at blue hour after rain; open roll-up door glowing cool white with three generic cars inside; industrial wall lamps; wet lot with reflections; no signage, text, logos, plates or people; cool light only.",
+  "output": "2048x2048 JPEG, resized to 1800, q82",
+  "note": "A GENERIC building, not Tarmac's (8401 N Classen Blvd). In About Us next to the address it reads as their premises: replace with a photo of the real building before launch. Orange hues desaturated (grade only). Client asked for no AI images: preview placeholder only."
+}

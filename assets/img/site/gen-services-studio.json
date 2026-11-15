@@ -1,0 +1,34 @@
+{
+  "file": "gen-services-studio.jpg",
+  "origin": "synthetic (AI image edit)",
+  "model": "fal-ai/nano-banana-pro/edit",
+  "date": "2026-11-15",
+  "requested_by": "Alex: Services in the new (blue-hour campaign) style, not a Toyota, more detail in the background",
+  "sources": [
+    "assets/img/site/gen-hero-911-pass.jpg (style reference only)"
+  ],
+  "fal_request_id": "01a1df1f-8e1c-7980-994e-94a09c4ada2c",
+  "prompt": "Create a new photograph in exactly the photographic style of the reference image (moody cinematic automotive campaign at blue hour). Do NOT reuse the car from the reference. Scene: inside a high-end car detailing and paint-protection studio at blue hour, wide shot full of authentic detail: open roll-up door to wet asphalt and the deep blue sky; a dark graphite sports coupe of no identifiable brand (no badges) on a glossy dark epoxy floor; a detailer in black nitrile gloves laying clear paint-protection film over the bonnet with a squeegee; cool white linear LED ceiling panels reflecting in the paint; a tool trolley with orbital polishers, unlabelled spray bottles, microfibre towels and a heat gun; a wall rack with plain film rolls; a second worker in the far background polishing a door under a light stand. Car and detailer in the middle band (30-58% of the height), top-left dark, bottom 40% calm glossy floor. No warm tones, no plates, no text, no logos. No Toyota. Photorealistic.",
+  "retouch": "Colour grade only: the saturation of strongly saturated orange hues (squeegee edge) pulled down to fit the cool palette; skin untouched. No patches, no blur.",
+  "output": "2752x1536 JPEG, resized to 2560x1429, q82",
+  "note": "Main car: 2005 Cadillac XLR (in the sample inventory), its own grille crest and XLR badge kept. Orange hues (indicator, squeegee) desaturated by grade. Generic people, not the partner shop or its staff. Client asked for no AI images: preview placeholder only.",
+  "edits": [
+    {
+      "date": "2026-11-15",
+      "model": "fal-ai/nano-banana-pro/edit",
+      "fal_request_id": "01a1df24-7d40-7042-b2a6-d56acb94cb05",
+      "reason": "Alex: one person can't hold a loose car door with one hand; close the bonnet; give the second worker another task",
+      "prompt": "Edit this photograph. Keep everything exactly the same except: 1) the car's front bonnet fully closed, flush with the bumper and wings, the clear film lying flat on it with the squeegee; 2) remove the loose car door the second worker is holding; instead he crouches beside the rear wheel of a second dark car just inside the open door, polishing the rim with a microfibre cloth, face turned away; the light stand stays. No other changes. No text, no logos, no plates, no warm tones."
+    },
+    {
+      "date": "2026-11-15",
+      "model": "fal-ai/nano-banana-pro/edit",
+      "fal_request_id": "01a1df37-1560-79c2-ab6d-db266339c1ec",
+      "reason": "Alex: cars must be 80s/90s/2000s; the 992 911 was out of era. Main car swapped for the 2005 Cadillac XLR (blue) from the inventory; the background car is now a dark silver early-2000s coupe.",
+      "sources": [
+        "assets/img/inv/2005-cadillac-xlr/01.jpg"
+      ],
+      "prompt": "Replace ONLY the main car with the 2005 Cadillac XLR (deep metallic blue); the detailer keeps laying clear PPF on its closed bonnet with a squeegee; the background car becomes a dark silver early-2000s coupe with no readable badges; everything else unchanged. No plates, no text, no warm tones."
+    }
+  ]
+}
