@@ -111,8 +111,11 @@
     : 'https://www.carfax.com/';
   const carfaxHTML = `
     <a class="vdp__carfax" href="${carfaxURL}" target="_blank" rel="noopener">
-      <span class="vdp__carfax-mark">CARFAX</span>
-      <span class="vdp__carfax-text"><strong>Vehicle History Report</strong><span>${esc(car.carfaxNote || 'Accidents, owners and service history')}</span></span>
+      <span class="vdp__carfax-brand">
+        <img class="vdp__carfax-logo" src="assets/img/brand/carfax-logo-white.svg?v=20261115d" alt="CARFAX" width="366" height="71">
+        <span class="vdp__carfax-tag">Vehicle History Reports</span>
+      </span>
+      <span class="vdp__carfax-text"><strong>View the report</strong><span>${esc(car.carfaxNote || 'Accidents, owners, service')}</span></span>
       ${ICON.external}
     </a>`;
   root.querySelector('[data-vdp-panel]').innerHTML = `
