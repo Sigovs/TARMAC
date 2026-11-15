@@ -35,6 +35,7 @@
     save: '<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10Z"/></svg>',
     text: '<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18.5h2"/></svg>',
     share: '<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 15V3.5M7.5 8 12 3.5 16.5 8"/><path d="M5 12v7.5h14V12"/></svg>',
+    external: '<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M9 6.5h8.5V15M17.5 6.5 7 17"/></svg>',
     play: '<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>',
   };
   const money = (n) => '$' + n.toLocaleString('en-US');
@@ -102,6 +103,18 @@
   const specs = [];
   if (car.transmission) specs.push(`<li>${ICON[car.transmission]}<span>${car.transmissionLabel}</span></li>`);
   if (car.miles != null) specs.push(`<li>${ICON.miles}<span>${car.miles.toLocaleString('en-US')} miles</span></li>`);
+  /* CARFAX vehicle history report. Preview: links by VIN where we have one (carfax.com otherwise).
+     On the platform: the dealer's CARFAX partner link and official badge (AAN integration).
+     The note under it repeats only what the listing itself says about the report. */
+  const carfaxURL = car.vinNumber
+    ? `https://www.carfax.com/VehicleHistory/p/Report.cfx?vin=${encodeURIComponent(car.vinNumber)}`
+    : 'https://www.carfax.com/';
+  const carfaxHTML = `
+    <a class="vdp__carfax" href="${carfaxURL}" target="_blank" rel="noopener">
+      <span class="vdp__carfax-mark">CARFAX</span>
+      <span class="vdp__carfax-text"><strong>Vehicle History Report</strong><span>${esc(car.carfaxNote || 'Accidents, owners and service history')}</span></span>
+      ${ICON.external}
+    </a>`;
   root.querySelector('[data-vdp-panel]').innerHTML = `
     <p class="vdp__kicker">${car.year} ${esc(car.make)}</p>
     <h1 class="vdp__title">${esc(model)}</h1>
@@ -111,6 +124,7 @@
       <button class="button button--primary button--block" type="button" data-drawer="car" data-car="${car.id}">Ask About This Car</button>
       <a class="button button--secondary button--block" href="tel:+14052379363">Call (405) 237-9363</a>
     </div>
+    ${carfaxHTML}
     <div class="car__actions vdp__actions">
       <button class="car__action" type="button" data-save="${car.id}" aria-pressed="${isSaved}">${ICON.save}<span>${isSaved ? 'Saved' : 'Save'}</span></button>
       <button class="car__action" type="button" data-drawer="text" data-car="${car.id}">${ICON.text}<span>Text to phone</span></button>

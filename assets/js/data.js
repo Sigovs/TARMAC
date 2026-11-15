@@ -182,6 +182,7 @@ window.TARMAC_INVENTORY = [
       "Clean accident free Carfax, original owner’s manuals, selling Dealer plate, and original keys included.",
       "New Michelin Pilot Sport tires were installed less than 30 miles ago in 6/2023.",
     ],
+    carfaxNote: 'Clean, accident-free report',   // the listing: "Clean accident free Carfax"
     status: null,
   },
   {

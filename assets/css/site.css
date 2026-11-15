@@ -1066,6 +1066,23 @@ html.has-drawer { overflow: hidden; }
 .vdp__specs { margin-top: var(--s-2); }
 .vdp__note { margin-top: var(--s-2); color: var(--text-muted); }
 .vdp__cta { display: grid; gap: 0.6rem; margin-top: var(--s-4); }
+/* CARFAX report link (plain text mark; the official badge comes from the platform's integration) */
+.vdp__carfax {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--s-2);
+  margin-top: 0.6rem; padding: 0.85rem 1rem; text-decoration: none; color: var(--text);
+  border: 1px solid var(--line-strong); border-radius: var(--radius);
+  transition: border-color var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+}
+.vdp__carfax:hover { border-color: var(--text); background: rgb(238 240 242 / 0.04); }
+.vdp__carfax-mark {
+  padding: 0.3rem 0.5rem; border-radius: 4px; background: var(--text); color: var(--on-light);
+  font-size: 0.8125rem; font-weight: 800; letter-spacing: 0.04em; font-variation-settings: "wdth" 85; line-height: 1;
+}
+.vdp__carfax-text { display: grid; gap: 0.1rem; line-height: 1.3; }
+.vdp__carfax-text strong { font-size: var(--fs-small); font-weight: 600; }
+.vdp__carfax-text span { font-size: var(--fs-label); color: var(--text-muted); }
+.vdp__carfax .icon { width: 18px; height: 18px; color: var(--text-muted); transition: transform var(--t-fast) var(--ease); }
+.vdp__carfax:hover .icon { transform: translate(2px, -2px); color: var(--text); }
 .vdp__actions { margin-top: var(--s-3); }
 
 /* Sell Your Car (replaces the usual finance buttons) */
