@@ -104,8 +104,8 @@
       </div>
       <div class="car__actions">
         <button class="car__action" type="button" data-save="${c.id}" aria-pressed="${saved.has(c.id)}">${ICON.save}<span>${saved.has(c.id) ? 'Saved' : 'Save'}</span></button>
-        <a class="car__action" href="sms:?&body=${encodeURIComponent(`${title} at Tarmac Motors: ${carURL(c)}`)}">${ICON.text}<span>Text to phone</span></a>
-        <button class="car__action" type="button" data-share="${c.id}">${ICON.share}<span>Share</span></button>
+        <button class="car__action" type="button" data-drawer="text" data-car="${c.id}">${ICON.text}<span>Text to phone</span></button>
+        <button class="car__action" type="button" data-drawer="share" data-car="${c.id}">${ICON.share}<span>Share</span></button>
       </div>
     </li>`;
   };
@@ -160,8 +160,8 @@
     }
   });
 
-  /* ---------- card actions: Save / Share (Text is a plain sms: link) ---------- */
-  grid.addEventListener('click', async (e) => {
+  /* ---------- card actions: Save here; Text to phone / Share open the drawer (below) ---------- */
+  grid.addEventListener('click', (e) => {
     const saveBtn = e.target.closest('[data-save]');
     if (saveBtn) {
       const id = saveBtn.dataset.save;
@@ -170,21 +170,6 @@
       saveBtn.setAttribute('aria-pressed', saved.has(id));
       saveBtn.querySelector('span').textContent = saved.has(id) ? 'Saved' : 'Save';
       return;
-    }
-    const shareBtn = e.target.closest('[data-share]');
-    if (shareBtn) {
-      const car = cars.find((c) => c.id === shareBtn.dataset.share);
-      const url = carURL(car);
-      const label = shareBtn.querySelector('span');
-      try {
-        if (navigator.share) { await navigator.share({ title: name(car), url }); return; }
-        await navigator.clipboard.writeText(url);
-        label.textContent = 'Link copied';
-      } catch (err) {
-        if (err.name === 'AbortError') return; // visitor closed the share sheet
-        label.textContent = 'Copy failed';
-      }
-      setTimeout(() => { label.textContent = 'Share'; }, 2000);
     }
   });
 
@@ -337,14 +322,105 @@
   });
 
   /* ---------- forms: preview only ---------- */
-  document.querySelectorAll('[data-preview-form]').forEach((form) => {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const status = form.querySelector('[data-form-status]');
-      // Preview: nothing is sent. On the platform this posts to the dealer's lead inbox.
-      status.textContent = 'Thanks, we’ll get back to you soon.';
-      status.classList.add('is-done');
-      form.reset();
-    });
+  document.addEventListener('submit', (e) => {
+    const form = e.target.closest('[data-preview-form]');
+    if (!form) return;
+    e.preventDefault();
+    const status = form.querySelector('[data-form-status]');
+    // Preview: nothing is sent. On the platform this posts to the dealer's lead inbox (or SMS / mailer).
+    status.textContent = form.dataset.success || 'Thanks, we’ll get back to you soon.';
+    status.classList.add('is-done');
+    form.reset();
   });
+
+  /* ---------- side drawer: Ask About Services / Storage, Text to Phone, Share ----------
+     One <dialog> (focus trap + Esc), content cloned from <template id="tpl-…">. Slides in from
+     the right; under reduced motion it simply appears. Page scroll is held while it is open. */
+  const drawer = document.getElementById('drawer');
+  if (drawer) {
+    const body = drawer.querySelector('[data-drawer-body]');
+    const titleEl = drawer.querySelector('#drawer-title');
+    const quiet = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const TITLES = { services: 'Ask About Services', storage: 'Ask About Storage', text: 'Text to Phone', share: 'Share This Car' };
+    let opener = null;
+
+    const fill = (car) => {
+      if (!car) return;
+      const title = name(car);
+      const url = carURL(car);
+      const msg = `${title} at Tarmac Motors: ${url}`;
+      const price = car.status === 'sold' ? 'Sold' : car.price ? money(car.price) : 'Call for price';
+      body.querySelectorAll('[data-car-title]').forEach((el) => { el.textContent = title; });
+      body.querySelectorAll('[data-car-price]').forEach((el) => { el.textContent = price; });
+      body.querySelectorAll('[data-car-img]').forEach((el) => { el.src = car.photos[0]; });
+      body.querySelectorAll('[data-car-message]').forEach((el) => { el.textContent = msg; });
+      body.querySelectorAll('[data-car-sms]').forEach((el) => { el.href = `sms:?&body=${encodeURIComponent(msg)}`; });
+      body.querySelectorAll('[data-car-mailto]').forEach((el) => {
+        el.href = `mailto:?subject=${encodeURIComponent(`${title} at Tarmac Motors`)}&body=${encodeURIComponent(msg)}`;
+      });
+      const native = body.querySelector('[data-native-share]');
+      if (native && navigator.share) {
+        native.hidden = false;
+        native.addEventListener('click', () => navigator.share({ title, url }).catch(() => {}));
+      }
+      const copy = body.querySelector('[data-copy-link]');
+      if (copy) copy.addEventListener('click', async () => {
+        try { await navigator.clipboard.writeText(url); copy.textContent = 'Link copied'; }
+        catch { copy.textContent = 'Copy failed'; }
+        setTimeout(() => { copy.textContent = 'Copy link'; }, 2000);
+      });
+      body.querySelectorAll('[data-drawer-switch]').forEach((b) => {
+        b.addEventListener('click', () => render(b.dataset.drawerSwitch, car));
+      });
+    };
+
+    const render = (kind, car) => {
+      const tpl = document.getElementById(`tpl-${kind}`);
+      if (!tpl) return false;
+      titleEl.textContent = TITLES[kind];
+      body.replaceChildren(tpl.content.cloneNode(true));
+      fill(car);
+      body.scrollTop = 0;
+      const first = body.querySelector('input:not([type=checkbox]):not([type=radio]), textarea');
+      if (first && drawer.open) first.focus({ preventScroll: true });
+      return true;
+    };
+
+    const open = (kind, car, from) => {
+      if (!render(kind, car)) return;
+      opener = from || null;
+      drawer.showModal();
+      document.documentElement.classList.add('has-drawer');
+      if (window.tarmacLenis) window.tarmacLenis.stop();
+      drawer.getBoundingClientRect();   // commit the off-screen start position before sliding in
+      requestAnimationFrame(() => requestAnimationFrame(() => drawer.classList.add('is-open')));
+    };
+
+    const close = () => {
+      if (!drawer.open) return;
+      drawer.classList.add('is-closing');
+      drawer.classList.remove('is-open');
+      const done = () => {
+        drawer.classList.remove('is-closing');
+        drawer.close();
+        document.documentElement.classList.remove('has-drawer');
+        if (window.tarmacLenis) window.tarmacLenis.start();
+        if (opener) opener.focus({ preventScroll: true });
+      };
+      if (quiet.matches) { done(); return; }
+      setTimeout(done, 420);   // = --drawer-out in site.css
+    };
+
+    document.addEventListener('click', (e) => {
+      const trigger = e.target.closest('[data-drawer]');
+      if (trigger) {
+        e.preventDefault();
+        const car = trigger.dataset.car ? cars.find((c) => c.id === trigger.dataset.car) : null;
+        open(trigger.dataset.drawer, car, trigger);
+      }
+    });
+    drawer.querySelector('[data-drawer-close]').addEventListener('click', close);
+    drawer.addEventListener('cancel', (e) => { e.preventDefault(); close(); });             // Esc
+    drawer.addEventListener('click', (e) => { if (e.target === drawer) close(); });          // backdrop
+  }
 })();
