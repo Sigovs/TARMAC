@@ -3,7 +3,7 @@
   Runs on index.html (home), inventory.html (SRP) and vehicle.html (VDP); every block checks
   that its elements exist.
   1. Inventory grid: cards with photo swipe and arrows.
-     Home (V2): three cards and a search bar that goes to the SRP (inventory.html?q=…).
+     Home (V2): every car in a sideways rail (three in view, side arrows) and a search bar that goes to the SRP.
      SRP (data-limit="all"): keyword search + Year from / to + Make + Model + sort, every car.
   2. Mobile menu (<dialog>), nav "you are here", header bar.
   3. Side drawer (Ask / Text to Phone / Share) and preview forms: nothing is sent.
@@ -14,12 +14,13 @@
 
   const grid = document.querySelector('[data-grid]');
   const search = document.querySelector('[data-search]');
-  const filters = document.querySelector('[data-filters]');   // SRP only: Year slider, Make, Model
+  const filters = document.querySelector('[data-filters]');   // SRP only: Year, Make, Model (dropdowns)
   const f = filters ? Object.fromEntries([...filters.querySelectorAll('[data-f]')].map((el) => [el.dataset.f, el])) : {};
   const sortSelect = document.querySelector('[data-sort]');
   const count = document.querySelector('[data-count]');
   const showAllBtn = document.querySelector('[data-show-all]');
-  const limit = grid && grid.dataset.limit === 'all' ? Infinity : HOME_LIMIT;
+  const isRail = !!grid && grid.dataset.limit === 'rail';   // home V2: every car in a sideways rail, three in view
+  const limit = grid && (grid.dataset.limit === 'all' || isRail) ? Infinity : HOME_LIMIT;
   // the contact form lives on the home page; other pages link to it
   const contactHref = document.getElementById('contact') ? '#contact' : 'index.html#contact';
 
@@ -50,32 +51,12 @@
   /* ---------- filtering (SRP) ---------- */
   const val = (el) => (el && el.value !== 'all' ? el.value : null);
 
-  // Year: one slider with two handles (Alex 2026-11-16: no from/to dropdowns). Bounds come from the lot.
-  const yearList = cars.map((c) => c.year);
-  const yLo = Math.min(...yearList), yHi = Math.max(...yearList);
-  const yMin = () => (f.yearMin ? +f.yearMin.value : yLo), yMax = () => (f.yearMax ? +f.yearMax.value : yHi);
-  const inYears = (c) => c.year >= yMin() && c.year <= yMax();
-  const yearsOn = () => yMin() > yLo || yMax() < yHi;
-  const syncYears = (moved) => {
-    if (!f.yearMin) return;
-    if (+f.yearMin.value > +f.yearMax.value) {   // handles can meet but never cross
-      if (moved === f.yearMin) f.yearMin.value = f.yearMax.value; else f.yearMax.value = f.yearMin.value;
-    }
-    const span = yHi - yLo || 1, a = (yMin() - yLo) / span, b = (yMax() - yLo) / span;
-    const range = f.yearMin.parentElement;
-    range.style.setProperty('--a', a); range.style.setProperty('--b', b);
-    // the lower handle sits on top when both are pushed to the right end, so it can still be dragged back
-    f.yearMin.style.zIndex = yMin() >= yHi ? 3 : '';
-    const out = filters.querySelector('[data-year-out]');
-    if (out) out.classList.toggle('is-on', yearsOn());
-    if (out) out.textContent = yearsOn() ? (yMin() === yMax() ? String(yMin()) : `${yMin()} – ${yMax()}`) : 'Any year';
-  };
-  const resetYears = () => { if (f.yearMin) { f.yearMin.value = yLo; f.yearMax.value = yHi; syncYears(); } };
   const matchesFilters = (c) => {
     const make = val(f.make), model = val(f.model);
-    return inYears(c) && (!make || c.make === make) && (!model || c.model === model);
+    const year = val(f.year);
+    return (!year || c.year === +year) && (!make || c.make === make) && (!model || c.model === model);
   };
-  const filtersOn = () => yearsOn() || ['make', 'model'].some((k) => val(f[k]));
+  const filtersOn = () => ['year', 'make', 'model'].some((k) => val(f[k]));
 
   // options come from the inventory itself, so a filter can never offer a year or make that isn't on the lot
   const uniq = (arr) => [...new Set(arr)];
@@ -90,8 +71,7 @@
     fillSelect(f.model, models, f.model.value);
   };
   if (filters) {
-    [f.yearMin, f.yearMax].forEach((el) => { if (el) { el.min = yLo; el.max = yHi; el.step = 1; } });
-    resetYears();
+    fillSelect(f.year, uniq(cars.map((c) => c.year)).sort((a, b) => b - a), 'all');   // newest first
     fillSelect(f.make, uniq(cars.map((c) => c.make)).sort(), 'all');
     fillModels();
   }
@@ -185,7 +165,7 @@
       : `${sorted.length} of ${cars.length} cars`;
 
     if (showAllBtn) {
-      showAllBtn.hidden = sorted.length - visible.length <= 0;
+      showAllBtn.hidden = !isRail && sorted.length - visible.length <= 0;
       const total = showAllBtn.querySelector('[data-total]');
       if (total) total.textContent = `${cars.length} cars`;
     }
@@ -198,11 +178,7 @@
     const fromURL = new URLSearchParams(location.search).get('q');
     if (search && fromURL) search.value = fromURL;
     if (search) search.addEventListener('input', render);
-    if (filters) filters.addEventListener('input', (e) => {   // the year handles update the list while dragging
-      if (e.target === f.yearMin || e.target === f.yearMax) { syncYears(e.target); render(); }
-    });
     if (filters) filters.addEventListener('change', (e) => {
-      if (e.target === f.yearMin || e.target === f.yearMax) { syncYears(e.target); render(); return; }
       if (e.target === f.make) { fillModels(); f.model.dispatchEvent(new Event('change')); }   // Model follows Make (and resyncs its dropdown)
       render();
     });
@@ -212,8 +188,7 @@
     grid.addEventListener('click', (e) => {
       if (!e.target.closest('[data-clear]')) return;
       if (search) search.value = '';
-      resetYears();
-      ['make'].forEach((k) => { if (f[k]) { f[k].value = 'all'; f[k].dispatchEvent(new Event('change')); } });
+      ['year', 'make'].forEach((k) => { if (f[k]) { f[k].value = 'all'; f[k].dispatchEvent(new Event('change')); } });
       if (filters) { fillModels(); f.model.value = 'all'; f.model.dispatchEvent(new Event('change')); }
       render();
       if (search) search.focus();
@@ -288,6 +263,28 @@
     const target = (i + step + total) % total;
     track.scrollTo({ left: target * track.clientWidth, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
   });
+
+  /* ---------- home rail: side arrows move the row one car at a time; they switch off at the ends ---------- */
+  const rail = document.querySelector('[data-rail]');
+  if (rail && grid) {
+    const prev = rail.querySelector('[data-rail-prev]'), next = rail.querySelector('[data-rail-next]');
+    const cardStep = () => {
+      const first = grid.children[0];
+      return first ? first.getBoundingClientRect().width + (parseFloat(getComputedStyle(grid).columnGap) || 0) : grid.clientWidth;
+    };
+    const syncRail = () => {
+      const max = grid.scrollWidth - grid.clientWidth;
+      prev.disabled = grid.scrollLeft <= 2;
+      next.disabled = grid.scrollLeft >= max - 2;
+      rail.classList.toggle('rail--static', max <= 2);   // everything fits: no arrows at all
+    };
+    const move = (dir) => grid.scrollBy({ left: dir * cardStep(), behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+    prev.addEventListener('click', () => move(-1));
+    next.addEventListener('click', () => move(1));
+    grid.addEventListener('scroll', syncRail, { passive: true });
+    window.addEventListener('resize', syncRail);
+    requestAnimationFrame(syncRail);
+  }
 
   // keep the counter in step with swipes and arrow clicks
   document.addEventListener('scroll', (e) => {

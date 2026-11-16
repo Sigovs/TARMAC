@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="assets/css/site.css?v=20261116j">
+  <link rel="stylesheet" href="assets/css/site.css?v=20261116k">
   <!-- Smooth scrolling (Lenis, pinned version). See assets/js/smooth-scroll.js -->
   <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.27/dist/lenis.css">
 </head>
@@ -221,18 +221,11 @@
           <input type="search" name="q" placeholder="Search make, model or year" autocomplete="off" data-search>
         </label>
 
-        <!-- V2 (Kirsten 2026-11-16): Year / Make / Model filters instead of the quick-filter chips (Year is one two-handle slider, not from/to dropdowns).
+        <!-- V2 (Kirsten 2026-11-16): Year / Make / Model filters instead of the quick-filter chips (one Year dropdown, no from/to range).
              Options are filled by home.js from the inventory itself; Model follows the chosen Make. -->
         <fieldset class="finder__filters" data-filters>
           <legend class="visually-hidden">Filters</legend>
-          <div class="field field--range" role="group" aria-labelledby="year-label">
-            <span class="field__label field__label--range"><span id="year-label">Year</span><output class="range__out" data-year-out aria-live="polite"></output></span>
-            <div class="range" data-range>
-              <span class="range__fill" aria-hidden="true"></span>
-              <input type="range" name="year-min" data-f="yearMin" aria-label="Earliest year">
-              <input type="range" name="year-max" data-f="yearMax" aria-label="Latest year">
-            </div>
-          </div>
+          <label class="field"><span class="field__label">Year</span><select name="year" data-f="year"><option value="all">Any year</option></select></label>
           <label class="field"><span class="field__label">Make</span><select name="make" data-f="make"><option value="all">Any make</option></select></label>
           <label class="field"><span class="field__label">Model</span><select name="model" data-f="model"><option value="all">Any model</option></select></label>
         </fieldset>
@@ -300,9 +293,9 @@
   </div>
 </footer>
 
-<script src="assets/js/data.js?v=20261116j"></script>
-<script src="assets/js/home.js?v=20261116j"></script>
+<script src="assets/js/data.js?v=20261116k"></script>
+<script src="assets/js/home.js?v=20261116k"></script>
 <script src="https://unpkg.com/lenis@1.3.27/dist/lenis.min.js"></script>
-<script src="assets/js/smooth-scroll.js?v=20261116j"></script>
+<script src="assets/js/smooth-scroll.js?v=20261116k"></script>
 </body>
 </html>
