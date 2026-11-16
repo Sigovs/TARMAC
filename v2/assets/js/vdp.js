@@ -19,6 +19,7 @@
 
   if (!car) {
     root.querySelector('[data-vdp-body]').hidden = true;
+    root.querySelector('[data-vdp-gallery]').hidden = true;
     root.querySelector('[data-vdp-missing]').hidden = false;
     document.title = 'Car not found — Tarmac Motors';
     return;
@@ -69,20 +70,25 @@
       <span class="car__count" data-g-count aria-hidden="true">1 / ${photos.length}</span>
       <button class="gallery__full" type="button" data-open-current aria-label="View full screen">${ICON.expand}</button>
     </div>
-    <ul class="gallery__thumbs" aria-label="Choose a photo">
-      ${photos.map((src, i) => `
-      <li><button class="gallery__thumb" type="button" data-thumb="${i}" aria-label="Photo ${i + 1}" ${i === 0 ? 'aria-current="true"' : ''}>
-        <img src="${src}" alt="" width="160" height="107" loading="lazy" decoding="async">
-      </button></li>`).join('')}
-    </ul>`;
+    <div class="container">
+      <ul class="gallery__thumbs" aria-label="Choose a photo">
+        ${photos.map((src, i) => `
+        <li><button class="gallery__thumb" type="button" data-thumb="${i}" aria-label="Photo ${i + 1}" ${i === 0 ? 'aria-current="true"' : ''}>
+          <img src="${src}" alt="" width="160" height="107" loading="lazy" decoding="async">
+        </button></li>`).join('')}
+      </ul>
+    </div>`;
 
   const track = gallery.querySelector('[data-g-track]');
   const countEl = gallery.querySelector('[data-g-count]');
   const thumbs = [...gallery.querySelectorAll('[data-thumb]')];
-  const index = () => Math.round(track.scrollLeft / track.clientWidth);
+  // V2: the full-width strip shows more than one photo, so a step is one photo plus the gap, not the track width
+  const step = () => track.children[0].getBoundingClientRect().width + (parseFloat(getComputedStyle(track).columnGap) || 0);
+  const atEnd = () => track.scrollLeft >= track.scrollWidth - track.clientWidth - 2;
+  const index = () => (atEnd() ? photos.length - 1 : Math.round(track.scrollLeft / step()));
   const goTo = (i) => {
     const n = (i + photos.length) % photos.length;   // wraps, like the cards
-    track.scrollTo({ left: n * track.clientWidth, behavior: reduce.matches ? 'auto' : 'smooth' });
+    track.scrollTo({ left: n * step(), behavior: reduce.matches ? 'auto' : 'smooth' });   // the browser stops at the end
   };
   track.addEventListener('scroll', () => {
     const i = index();
@@ -112,7 +118,7 @@
   const carfaxHTML = `
     <a class="vdp__carfax" href="${carfaxURL}" target="_blank" rel="noopener">
       <span class="vdp__carfax-brand">
-        <img class="vdp__carfax-logo" src="assets/img/brand/carfax-logo-white.svg?v=20261116a" alt="CARFAX" width="366" height="71">
+        <img class="vdp__carfax-logo" src="assets/img/brand/carfax-logo-white.svg?v=20261116f" alt="CARFAX" width="366" height="71">
         <span class="vdp__carfax-tag">Vehicle History Reports</span>
       </span>
       <span class="vdp__carfax-text"><strong>View the report</strong><span>${esc(car.carfaxNote || 'Accidents, owners, service')}</span></span>

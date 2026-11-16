@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="assets/css/site.css?v=20261116a">
+  <link rel="stylesheet" href="assets/css/site.css?v=20261116f">
   <!-- Smooth scrolling (Lenis, pinned version). See assets/js/smooth-scroll.js -->
   <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.27/dist/lenis.css">
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/animejs@4.5.0/+esm">
@@ -35,12 +35,11 @@
 
     <nav class="nav" aria-label="Main">
       <ul class="nav__list">
-        <li class="nav__pill" aria-hidden="true"></li>
         <li><a href="inventory.html"><span class="roll" data-text="Inventory"><span>Inventory</span></span></a></li>
+        <li><a href="#about"><span class="roll" data-text="About Us"><span>About Us</span></span></a></li>
         <li><a href="#sell"><span class="roll" data-text="Sell Your Car"><span>Sell Your Car</span></span></a></li>
         <li><a href="#services"><span class="roll" data-text="Services"><span>Services</span></span></a></li>
         <li><a href="#storage"><span class="roll" data-text="Car Storage"><span>Car Storage</span></span></a></li>
-        <li><a href="#about"><span class="roll" data-text="About Us"><span>About Us</span></span></a></li>
         <li><a href="#contact"><span class="roll" data-text="Contact"><span>Contact</span></span></a></li>
       </ul>
     </nav>
@@ -68,10 +67,10 @@
   </div>
   <ul class="menu__list">
     <li><a href="inventory.html" data-menu-link>Inventory</a></li>
+    <li><a href="#about" data-menu-link>About Us</a></li>
     <li><a href="#sell" data-menu-link>Sell Your Car</a></li>
     <li><a href="#services" data-menu-link>Services</a></li>
     <li><a href="#storage" data-menu-link>Car Storage</a></li>
-    <li><a href="#about" data-menu-link>About Us</a></li>
     <li><a href="#contact" data-menu-link>Contact</a></li>
   </ul>
   <div class="menu__contact">
@@ -258,66 +257,56 @@
         <p class="section-intro">Weekend cars from the ’80s, ’90s and 2000s, some older classics, and plenty of manuals.</p>
       </header>
 
-      <form class="finder" role="search" data-finder>
+      <!-- V2 (Kirsten 2026-11-16): search bar only, no quick-filter chips. Home shows three cars;
+           the search goes to the SRP (inventory.html?q=…), where the Year / Make / Model filters live. -->
+      <form class="finder finder--home" role="search" action="inventory.html" method="get">
         <label class="field field--search">
           <span class="visually-hidden">Search inventory</span>
           <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
-          <input type="search" name="q" placeholder="Search make, model or year" autocomplete="off" data-search>
+          <input type="search" name="q" placeholder="Search make, model or year" autocomplete="off">
         </label>
-
-        <fieldset class="chips" data-filters>
-          <legend class="visually-hidden">Quick filters</legend>
-          <label class="chip"><input type="radio" name="filter" value="all" checked><span>All cars</span></label>
-          <label class="chip"><input type="radio" name="filter" value="manual"><span>Manual</span></label>
-          <label class="chip"><input type="radio" name="filter" value="pre80"><span>Before 1980</span></label>
-          <label class="chip"><input type="radio" name="filter" value="80s"><span>1980s</span></label>
-          <label class="chip"><input type="radio" name="filter" value="90s"><span>1990s</span></label>
-          <label class="chip"><input type="radio" name="filter" value="00s"><span>2000s and newer</span></label>
-        </fieldset>
-
-        <div class="finder__meta">
-          <p class="finder__count" aria-live="polite" data-count></p>
-          <label class="field field--select">
-            <span class="field__label">Sort</span>
-            <select name="sort" data-sort>
-              <option value="featured">Featured</option>
-              <option value="year-desc">Year, newest first</option>
-              <option value="year-asc">Year, oldest first</option>
-              <option value="price-asc">Price, low to high</option>
-              <option value="price-desc">Price, high to low</option>
-            </select>
-          </label>
-        </div>
       </form>
 
-      <ul class="car-grid" data-grid></ul>
+      <ul class="car-grid car-grid--3" data-grid></ul>
 
       <div class="inventory__more">
-        <a class="button button--secondary" href="inventory.html" data-show-all hidden>Show all</a>
+        <a class="button button--secondary" href="inventory.html" data-show-all>Show all <span data-total></span></a>
       </div>
     </div>
   </section>
   </div>
 
-  <!-- ============ TRUST BAND (Superior: heading + 4 columns over a full-bleed photo) ============
-       Heading = the client's own words (TikTok bio). Column copy is SIMULATED from the brief
-       (VIN decoding, open descriptions, video, trades) — confirm with the client. -->
-  <div class="overlay"><!-- overlay 2: the first section pins, the next slides over it as a rounded sheet -->
-  <section class="band band--trust overlay__pin" aria-labelledby="trust-title">
-    <figure class="band__media">
-      <!-- GENERATED placeholder, see assets/img/site/gen-trust-lincoln-prairie.json (client asked for no AI images: replace before launch).
-           Same blue-hour campaign style as the hero, different car and landscape (Alex). -->
-      <img class="band__img--trust" src="assets/img/site/gen-trust-lincoln-prairie.jpg" alt="" loading="lazy" width="2560" height="1429">
+  <!-- ============ ABOUT US (V2, Kirsten 2026-11-16) ============
+       Moved up to where the "Driven by passion" band was, and given real About content instead of the
+       address and form (those are now the Contact section below). Full screen like the other photo
+       sections: copy left, the warehouse photo on the right (mirrored by Sell, which slides over it),
+       the four cards from the old band at the bottom, over the wet asphalt (never over the cars).
+       Card copy is SIMULATED from the brief (VIN decoding, open descriptions, video, trades). -->
+  <div class="overlay"><!-- overlay 2: About pins, Sell slides over it as a rounded sheet -->
+  <section class="section about has-media overlay__pin" id="about" aria-labelledby="about-title">
+    <figure class="section-media section-media--right" aria-hidden="true">
+      <!-- GENERATED placeholder: a generic warehouse car dealer at blue hour, NOT Tarmac's building (see gen-about-warehouse.json).
+           Must be replaced with a photo of the real building before launch: next to the address it reads as their premises. -->
+      <img src="assets/img/site/gen-about-warehouse.jpg" alt="" loading="lazy" width="1800" height="1800">
     </figure>
-    <div class="container">
-      <h2 class="band__title" id="trust-title">Driven by passion.<br>Built on trust.</h2>
-      <ul class="band__cols">
+    <div class="container about__inner">
+      <div class="about__copy">
+        <h2 class="section-title" id="about-title">About Us</h2>
+        <p class="about__text">We buy, sell, trade cars worth getting excited about — classics, unique daily drivers, oddballs &amp; everything in between.</p>
+        <!-- SIMULATED About copy (Alex 2026-11-16: the client gave us none). Built from the brief only
+             (location, the kind of cars, buy/sell/trade, storage, partner shop); no dates, numbers or claims.
+             Replace with the client's own words before launch. -->
+        <p class="about__body">Tarmac Motors is a small, independent dealer on North Classen Boulevard in Oklahoma City, run by car people. We keep a short, hand-picked lineup: weekend cars from the ’80s, ’90s and 2000s, a few older classics, oddballs you won’t see twice, and plenty of manuals. We buy cars outright too, and can store yours between drives or send it to our partner shop for coating, PPF or a wrap.</p>
+        <!-- The client's own words (TikTok bio). -->
+        <p class="about__motto">Driven by passion. Built on trust.</p>
+        <a class="button button--secondary about__cta" href="inventory.html">View Inventory</a>
+      </div>
+      <ul class="band__cols about__cols">
         <li><span class="band__icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M4 6v12M7 6v12M9.5 6v12M13 6v12M15.5 6v12M20 6v12M17.5 6v12"/></svg></span><h3>VIN Decoded</h3><p>Factory options and specs from the VIN.</p></li>
         <li><span class="band__icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4"/></svg></span><h3>Full Descriptions</h3><p>Everything we know about the car, up front.</p></li>
         <li><span class="band__icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M4 8.5h3l1.8-2.5h6.4L17 8.5h3V19H4z"/><circle cx="12" cy="13.2" r="3.4"/></svg></span><h3>Photos &amp; Video</h3><p>A proper walkaround of every car on the lot.</p></li>
         <li><span class="band__icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M5 8h13l-3.5-3.5M19 16H6l3.5 3.5"/></svg></span><h3>Trades Welcome</h3><p>Bring yours in toward the next one.</p></li>
       </ul>
-      <a class="button button--secondary band__cta" href="#inventory">View Inventory</a>
     </div>
   </section>
 
@@ -405,23 +394,11 @@
   </section>
   </div>
 
-  <!-- ============ ABOUT + CONTACT ============ -->
-  <section class="section about has-media" id="about" aria-labelledby="about-title">
-    <!-- Half-bleed photo behind the contact form (right), mirrored from Sell. Placeholder: see PROVENANCE.md -->
-    <figure class="section-media section-media--right" aria-hidden="true">
-      <!-- GENERATED placeholder: a generic warehouse car dealer at blue hour, NOT Tarmac's building (see gen-about-warehouse.json).
-           Must be replaced with a photo of the real building before launch: next to the address it reads as their premises. -->
-      <img src="assets/img/site/gen-about-warehouse.jpg" alt="" loading="lazy" width="1800" height="1800">
-    </figure>
-    <div class="container about__grid">
-      <div class="about__copy">
-        <h2 class="section-title" id="about-title">About Us</h2>
-        <p class="about__text">We buy, sell, trade cars worth getting excited about — classics, unique daily drivers, oddballs &amp; everything in between.</p>
-        <!-- SIMULATED About copy (Alex 2026-11-16: the client gave us none). Built from the brief only
-             (location, the kind of cars, buy/sell/trade, storage, partner shop); no dates, numbers or claims.
-             Replace with the client's own words before launch. -->
-        <p class="about__body">Tarmac Motors is a small, independent dealer on North Classen Boulevard in Oklahoma City, run by car people. We keep a short, hand-picked lineup: weekend cars from the ’80s, ’90s and 2000s, a few older classics, oddballs you won’t see twice, and plenty of manuals. Every car is listed with a full description, real photos and video, so you know what you’re looking at before you come by. Bring yours along too: we buy outright, take trades, and can store your car or send it to our partner shop for coating, PPF or a wrap.</p>
-
+  <!-- ============ CONTACT (V2: address, hours and the form, moved out of About) ============ -->
+  <section class="section contact" id="contact" aria-labelledby="contact-section-title">
+    <div class="container contact__grid">
+      <div class="contact__copy">
+        <h2 class="section-title" id="contact-section-title">Contact</h2>
         <dl class="facts">
           <div><dt>Visit</dt><dd>8401 N Classen Blvd<br>Oklahoma City, OK 73114<br>
             <a class="link" href="https://www.google.com/maps/search/?api=1&query=8401+N+Classen+Blvd+Oklahoma+City+OK+73114" target="_blank" rel="noopener">Get directions</a></dd></div>
@@ -437,8 +414,8 @@
         </dl>
       </div>
 
-      <form class="panel panel--glass form" id="contact" data-preview-form aria-labelledby="contact-title">
-        <h3 class="form__title" id="contact-title">Contact</h3>
+      <form class="panel panel--glass form" data-preview-form aria-labelledby="contact-title">
+        <h3 class="form__title" id="contact-title">Send a message</h3>
         <div class="form__row form__row--2">
           <label class="field"><span class="field__label">First name</span><input name="first" autocomplete="given-name" required></label>
           <label class="field"><span class="field__label">Last name</span><input name="last" autocomplete="family-name" required></label>
@@ -549,10 +526,10 @@
       <h2 class="site-footer__label">Pages</h2>
       <ul class="site-footer__nav">
         <li><a class="link" href="inventory.html">Inventory</a></li>
+        <li><a class="link" href="#about">About Us</a></li>
         <li><a class="link" href="#sell">Sell Your Car</a></li>
         <li><a class="link" href="#services">Services</a></li>
         <li><a class="link" href="#storage">Car Storage</a></li>
-        <li><a class="link" href="#about">About Us</a></li>
       </ul>
     </nav>
   </div>
@@ -562,13 +539,13 @@
   </div>
 </footer>
 
-<script src="assets/js/data.js?v=20261116a"></script>
-<script src="assets/js/home.js?v=20261116a"></script>
+<script src="assets/js/data.js?v=20261116f"></script>
+<script src="assets/js/home.js?v=20261116f"></script>
 <script src="https://unpkg.com/lenis@1.3.27/dist/lenis.min.js"></script>
-<script src="assets/js/smooth-scroll.js?v=20261116a"></script>
-<script src="assets/js/overlays.js?v=20261116a"></script>
+<script src="assets/js/smooth-scroll.js?v=20261116f"></script>
+<script src="assets/js/overlays.js?v=20261116f"></script>
 <!-- Page motion (Anime.js 4.5.0, ES module). If it hasn't started after 2.5 s, show the static page. -->
-<script type="module" src="assets/js/motion.js?v=20261116a"></script>
+<script type="module" src="assets/js/motion.js?v=20261116f"></script>
 <script>
   setTimeout(function () {
     if (!document.documentElement.classList.contains('anime-on')) document.documentElement.classList.remove('js-motion');

@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="assets/css/site.css?v=20261116a">
+  <link rel="stylesheet" href="assets/css/site.css?v=20261116f">
   <!-- Smooth scrolling (Lenis, pinned version). See assets/js/smooth-scroll.js -->
   <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.27/dist/lenis.css">
 </head>
@@ -32,12 +32,11 @@
 
     <nav class="nav" aria-label="Main">
       <ul class="nav__list">
-        <li class="nav__pill" aria-hidden="true"></li>
         <li><a href="inventory.html" aria-current="page"><span class="roll" data-text="Inventory"><span>Inventory</span></span></a></li>
+        <li><a href="index.html#about"><span class="roll" data-text="About Us"><span>About Us</span></span></a></li>
         <li><a href="index.html#sell"><span class="roll" data-text="Sell Your Car"><span>Sell Your Car</span></span></a></li>
         <li><a href="index.html#services"><span class="roll" data-text="Services"><span>Services</span></span></a></li>
         <li><a href="index.html#storage"><span class="roll" data-text="Car Storage"><span>Car Storage</span></span></a></li>
-        <li><a href="index.html#about"><span class="roll" data-text="About Us"><span>About Us</span></span></a></li>
         <li><a href="index.html#contact"><span class="roll" data-text="Contact"><span>Contact</span></span></a></li>
       </ul>
     </nav>
@@ -65,10 +64,10 @@
   </div>
   <ul class="menu__list">
     <li><a href="inventory.html" data-menu-link>Inventory</a></li>
+    <li><a href="index.html#about" data-menu-link>About Us</a></li>
     <li><a href="index.html#sell" data-menu-link>Sell Your Car</a></li>
     <li><a href="index.html#services" data-menu-link>Services</a></li>
     <li><a href="index.html#storage" data-menu-link>Car Storage</a></li>
-    <li><a href="index.html#about" data-menu-link>About Us</a></li>
     <li><a href="index.html#contact" data-menu-link>Contact</a></li>
   </ul>
   <div class="menu__contact">
@@ -221,14 +220,14 @@
           <input type="search" name="q" placeholder="Search make, model or year" autocomplete="off" data-search>
         </label>
 
-        <fieldset class="chips" data-filters>
-          <legend class="visually-hidden">Quick filters</legend>
-          <label class="chip"><input type="radio" name="filter" value="all" checked><span>All cars</span></label>
-          <label class="chip"><input type="radio" name="filter" value="manual"><span>Manual</span></label>
-          <label class="chip"><input type="radio" name="filter" value="pre80"><span>Before 1980</span></label>
-          <label class="chip"><input type="radio" name="filter" value="80s"><span>1980s</span></label>
-          <label class="chip"><input type="radio" name="filter" value="90s"><span>1990s</span></label>
-          <label class="chip"><input type="radio" name="filter" value="00s"><span>2000s and newer</span></label>
+        <!-- V2 (Kirsten 2026-11-16): Year / Make / Model filters instead of the quick-filter chips.
+             Options are filled by home.js from the inventory itself; Model follows the chosen Make. -->
+        <fieldset class="finder__filters" data-filters>
+          <legend class="visually-hidden">Filters</legend>
+          <label class="field"><span class="field__label">Year from</span><select name="year-from" data-f="yearFrom"><option value="all">Any</option></select></label>
+          <label class="field"><span class="field__label">Year to</span><select name="year-to" data-f="yearTo"><option value="all">Any</option></select></label>
+          <label class="field"><span class="field__label">Make</span><select name="make" data-f="make"><option value="all">Any make</option></select></label>
+          <label class="field"><span class="field__label">Model</span><select name="model" data-f="model"><option value="all">Any model</option></select></label>
         </fieldset>
 
         <div class="finder__meta">
@@ -281,10 +280,10 @@
       <h2 class="site-footer__label">Pages</h2>
       <ul class="site-footer__nav">
         <li><a class="link" href="inventory.html">Inventory</a></li>
+        <li><a class="link" href="index.html#about">About Us</a></li>
         <li><a class="link" href="index.html#sell">Sell Your Car</a></li>
         <li><a class="link" href="index.html#services">Services</a></li>
         <li><a class="link" href="index.html#storage">Car Storage</a></li>
-        <li><a class="link" href="index.html#about">About Us</a></li>
       </ul>
     </nav>
   </div>
@@ -294,9 +293,9 @@
   </div>
 </footer>
 
-<script src="assets/js/data.js?v=20261116a"></script>
-<script src="assets/js/home.js?v=20261116a"></script>
+<script src="assets/js/data.js?v=20261116f"></script>
+<script src="assets/js/home.js?v=20261116f"></script>
 <script src="https://unpkg.com/lenis@1.3.27/dist/lenis.min.js"></script>
-<script src="assets/js/smooth-scroll.js?v=20261116a"></script>
+<script src="assets/js/smooth-scroll.js?v=20261116f"></script>
 </body>
 </html>

@@ -2,18 +2,20 @@
   TARMAC MOTORS — shared page behaviour (preview mockup, no dependencies).
   Runs on index.html (home), inventory.html (SRP) and vehicle.html (VDP); every block checks
   that its elements exist.
-  1. Inventory grid: keyword search + quick filters + sort, 2-up cards, photo swipe with arrows.
-     Home shows 6 cards and links to the SRP; the SRP (data-limit="all") shows every car.
-  2. Mobile menu (<dialog>), nav highlight, header bar.
+  1. Inventory grid: cards with photo swipe and arrows.
+     Home (V2): three cards and a search bar that goes to the SRP (inventory.html?q=…).
+     SRP (data-limit="all"): keyword search + Year from / to + Make + Model + sort, every car.
+  2. Mobile menu (<dialog>), nav "you are here", header bar.
   3. Side drawer (Ask / Text to Phone / Share) and preview forms: nothing is sent.
 */
 (() => {
   const cars = window.TARMAC_INVENTORY || [];
-  const HOME_LIMIT = 6; // cards shown on the home page before "Show all" (a link to the SRP)
+  const HOME_LIMIT = 3; // cards shown on the home page before "Show all" (a link to the SRP); V2: Kirsten asked for three
 
   const grid = document.querySelector('[data-grid]');
   const search = document.querySelector('[data-search]');
-  const filters = document.querySelector('[data-filters]');
+  const filters = document.querySelector('[data-filters]');   // SRP only: Year from / to, Make, Model
+  const f = filters ? Object.fromEntries([...filters.querySelectorAll('[data-f]')].map((el) => [el.dataset.f, el])) : {};
   const sortSelect = document.querySelector('[data-sort]');
   const count = document.querySelector('[data-count]');
   const showAllBtn = document.querySelector('[data-show-all]');
@@ -45,17 +47,34 @@
   const saved = readSaved();
   const statusRank = { null: 0, 'coming-soon': 1, sold: 2 };
 
-  /* ---------- filtering ---------- */
-  const matchesFilter = (c, f) => {
-    switch (f) {
-      case 'manual': return c.transmission === 'manual';
-      case 'pre80': return c.year < 1980;
-      case '80s': return c.year >= 1980 && c.year < 1990;
-      case '90s': return c.year >= 1990 && c.year < 2000;
-      case '00s': return c.year >= 2000;
-      default: return true;
-    }
+  /* ---------- filtering (SRP) ---------- */
+  const val = (el) => (el && el.value !== 'all' ? el.value : null);
+  const matchesFilters = (c) => {
+    const from = val(f.yearFrom), to = val(f.yearTo), make = val(f.make), model = val(f.model);
+    return (!from || c.year >= +from) && (!to || c.year <= +to)
+      && (!make || c.make === make) && (!model || c.model === model);
   };
+  const filtersOn = () => ['yearFrom', 'yearTo', 'make', 'model'].some((k) => val(f[k]));
+
+  // options come from the inventory itself, so a filter can never offer a year or make that isn't on the lot
+  const uniq = (arr) => [...new Set(arr)];
+  const fillSelect = (el, values, keep) => {
+    const first = el.options[0];   // the "Any" option
+    el.replaceChildren(first, ...values.map((v) => new Option(String(v), String(v))));
+    el.value = values.map(String).includes(keep) ? keep : 'all';
+  };
+  const fillModels = () => {
+    const make = val(f.make);
+    const models = uniq(cars.filter((c) => !make || c.make === make).map((c) => c.model)).sort();
+    fillSelect(f.model, models, f.model.value);
+  };
+  if (filters) {
+    const years = uniq(cars.map((c) => c.year)).sort((a, b) => a - b);
+    fillSelect(f.yearFrom, years, 'all');
+    fillSelect(f.yearTo, [...years].reverse(), 'all');
+    fillSelect(f.make, uniq(cars.map((c) => c.make)).sort(), 'all');
+    fillModels();
+  }
 
   const matchesQuery = (c, q) => {
     if (!q) return true;
@@ -110,9 +129,9 @@
         <p class="car__note">${c.note}</p>
       </div>
       <div class="car__actions">
-        <button class="car__action" type="button" data-save="${c.id}" aria-pressed="${saved.has(c.id)}">${ICON.save}<span>${saved.has(c.id) ? 'Saved' : 'Save'}</span></button>
-        <button class="car__action" type="button" data-drawer="text" data-car="${c.id}">${ICON.text}<span>Text to phone</span></button>
-        <button class="car__action" type="button" data-drawer="share" data-car="${c.id}">${ICON.share}<span>Share</span></button>
+        <button class="car__action" type="button" data-save="${c.id}" aria-pressed="${saved.has(c.id)}" title="Save">${ICON.save}<span>${saved.has(c.id) ? 'Saved' : 'Save'}</span></button>
+        <button class="car__action" type="button" data-drawer="text" data-car="${c.id}" title="Text to phone">${ICON.text}<span>Text to phone</span></button>
+        <button class="car__action" type="button" data-drawer="share" data-car="${c.id}" title="Share">${ICON.share}<span>Share</span></button>
         <a class="car__action car__action--details" href="${href}" aria-label="Details: ${title}"><span>Details</span>${ICON.next}</a>
       </div>
     </li>`;
@@ -120,22 +139,20 @@
 
   /* ---------- render ---------- */
   const render = () => {
-    const q = search.value.trim();
-    const f = filters.querySelector('input:checked').value;
+    const q = search ? search.value.trim() : '';
     const sorted = cars
-      .filter((c) => matchesFilter(c, f) && matchesQuery(c, q))
-      .sort(sorters[sortSelect.value] || sorters.featured);
+      .filter((c) => matchesFilters(c) && matchesQuery(c, q))
+      .sort(sortSelect ? sorters[sortSelect.value] || sorters.featured : sorters.featured);
 
-    const browsing = !q && f === 'all';
-    const visible = browsing ? sorted.slice(0, limit) : sorted;
+    const visible = sorted.slice(0, limit);
 
     if (!sorted.length) {
       grid.innerHTML = `
         <li class="empty">
-          <h3 class="car__title">No cars match${q ? ` “${escapeHTML(q)}”` : ' this filter'}</h3>
-          <p>The lot changes often. Clear the search, or tell us what you’re looking for and we’ll keep an eye out.</p>
+          <h3 class="car__title">No cars match${q ? ` “${escapeHTML(q)}”` : ' these filters'}</h3>
+          <p>The lot changes often. Clear the search and filters, or tell us what you’re looking for and we’ll keep an eye out.</p>
           <div class="empty__actions">
-            <button class="button button--secondary" type="button" data-clear>Clear search</button>
+            <button class="button button--secondary" type="button" data-clear>Clear all</button>
             <a class="button button--primary" href="${contactHref}" data-topic="Looking for a car">Tell us what you want</a>
           </div>
         </li>`;
@@ -143,29 +160,39 @@
       grid.innerHTML = visible.map(cardHTML).join('');
     }
 
-    count.textContent = sorted.length === cars.length
+    if (count) count.textContent = sorted.length === cars.length
       ? `${cars.length} cars`
       : `${sorted.length} of ${cars.length} cars`;
 
-    if (showAllBtn) showAllBtn.hidden = sorted.length - visible.length <= 0;
+    if (showAllBtn) {
+      showAllBtn.hidden = sorted.length - visible.length <= 0;
+      const total = showAllBtn.querySelector('[data-total]');
+      if (total) total.textContent = `${cars.length} cars`;
+    }
   };
 
   const escapeHTML = (s) => s.replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 
   if (grid) {
-  search.addEventListener('input', render);
-  filters.addEventListener('change', render);
-  sortSelect.addEventListener('change', render);
-  document.querySelector('[data-finder]').addEventListener('submit', (e) => e.preventDefault());
-  grid.addEventListener('click', (e) => {
-    if (e.target.closest('[data-clear]')) {
-      search.value = '';
-      filters.querySelector('input[value="all"]').checked = true;
+    // the home search lands here as ?q=…
+    const fromURL = new URLSearchParams(location.search).get('q');
+    if (search && fromURL) search.value = fromURL;
+    if (search) search.addEventListener('input', render);
+    if (filters) filters.addEventListener('change', (e) => {
+      if (e.target === f.make) { fillModels(); f.model.dispatchEvent(new Event('change')); }   // Model follows Make (and resyncs its dropdown)
       render();
-      search.focus();
-    }
-  });
-
+    });
+    if (sortSelect) sortSelect.addEventListener('change', render);
+    const finder = document.querySelector('[data-finder]');
+    if (finder) finder.addEventListener('submit', (e) => e.preventDefault());
+    grid.addEventListener('click', (e) => {
+      if (!e.target.closest('[data-clear]')) return;
+      if (search) search.value = '';
+      ['yearFrom', 'yearTo', 'make'].forEach((k) => { if (f[k]) { f[k].value = 'all'; f[k].dispatchEvent(new Event('change')); } });
+      if (filters) { fillModels(); f.model.value = 'all'; f.model.dispatchEvent(new Event('change')); }
+      render();
+      if (search) search.focus();
+    });
   }
 
   /* ---------- Save (cards and the VDP); Text to phone / Share open the drawer (below) ---------- */
@@ -256,53 +283,28 @@
   menu.querySelector('[data-menu-close]').addEventListener('click', () => menu.close());
   menu.querySelectorAll('[data-menu-link]').forEach((a) => a.addEventListener('click', () => menu.close()));
 
-  /* ---------- nav: sliding highlight + "you are here" ----------
-     The pill slides to the hovered link; otherwise it rests on the link of the section
-     currently crossing the middle of the screen (aria-current="true"). */
+  /* ---------- nav: "you are here" ----------
+     V2: plain text links, no highlight pill (Kirsten 2026-11-16). The link of the section currently
+     crossing the middle of the screen gets aria-current="true" (white text, see site.css). */
   const navList = document.querySelector('.nav__list');
-  const pill = navList && navList.querySelector('.nav__pill');
-  if (navList && pill) {
-    const links = [...navList.querySelectorAll('a')];
-    const hashLinks = links.filter((a) => a.getAttribute('href').startsWith('#'));
-    let current = navList.querySelector('a[aria-current="page"]');   // SRP / VDP mark their page
-    const moveTo = (a) => {
-      if (!a) { pill.classList.remove('is-on'); return; }
-      const box = navList.getBoundingClientRect(), r = a.getBoundingClientRect();
-      pill.style.setProperty('--pill-x', `${r.left - box.left - navList.clientLeft}px`);
-      pill.style.setProperty('--pill-w', `${r.width}px`);
-      pill.classList.add('is-on');
-    };
-    links.forEach((a) => {
-      a.addEventListener('mouseenter', () => moveTo(a));
-      a.addEventListener('focus', () => moveTo(a));
-    });
-    navList.addEventListener('mouseleave', () => moveTo(current));
-    navList.addEventListener('focusout', (e) => { if (!navList.contains(e.relatedTarget)) moveTo(current); });
-
-    // scroll-spy: which nav target is in the middle band of the screen
+  if (navList) {
+    const hashLinks = [...navList.querySelectorAll('a')].filter((a) => a.getAttribute('href').startsWith('#'));
+    const clear = () => hashLinks.forEach((a) => a.removeAttribute('aria-current'));
     const targets = hashLinks.map((a) => document.getElementById(a.getAttribute('href').slice(1))).filter(Boolean);
     const spy = new IntersectionObserver((entries) => {
       entries.forEach((en) => {
         if (!en.isIntersecting) return;
         const link = hashLinks.find((a) => a.getAttribute('href') === `#${en.target.id}`);
-        hashLinks.forEach((a) => a.removeAttribute('aria-current'));
+        clear();
         if (link) link.setAttribute('aria-current', 'true');
-        current = link || null;
-        if (!navList.matches(':hover')) moveTo(current);
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
     targets.forEach((t) => spy.observe(t));
-    // the hero (top of the page) has no nav item: clear the highlight there
+    // the hero (top of the page) has no nav item: clear the mark there
     const hero = document.querySelector('.hero');
     if (hero) new IntersectionObserver(([en]) => {
-      if (en.isIntersecting && en.intersectionRatio > 0.5) {
-        hashLinks.forEach((a) => a.removeAttribute('aria-current'));
-        current = null;
-        if (!navList.matches(':hover')) moveTo(null);
-      }
+      if (en.isIntersecting && en.intersectionRatio > 0.5) clear();
     }, { threshold: [0.5] }).observe(hero);
-    window.addEventListener('resize', () => moveTo(navList.matches(':hover') ? null : current));
-    if (current) requestAnimationFrame(() => moveTo(current));
   }
 
   /* ---------- header bar appears after the page starts scrolling ---------- */
