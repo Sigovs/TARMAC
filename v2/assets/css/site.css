@@ -620,16 +620,21 @@ html.has-drawer { overflow: hidden; }
 .chip input:checked + span { background: var(--text); border-color: var(--text); color: var(--on-light); font-weight: 600; }
 .chip input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-/* SRP filters (V2): Year (two-handle slider), Make, Model. Stacked on narrow phones, three in a row from 480px. */
+/* SRP filters (V2): Year (two-handle slider), Make, Model. Stacked on narrow phones, three in a row from
+   480px. From 768px the three keep compact widths instead of stretching across the page (Alex 2026-11-16);
+   from 1024px they share one row with the count and Sort (see the 1024px block below). */
 .finder__filters { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-2); min-width: 0; margin: 0; padding: 0; border: 0; }
 @media (min-width: 480px) { .finder__filters { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (min-width: 768px) { .finder__filters { gap: var(--s-3); } }
+@media (min-width: 768px) {
+  .finder__filters { grid-template-columns: minmax(0, 15rem) repeat(2, minmax(0, 12.5rem)); justify-content: start; gap: var(--s-3); }
+}
 
 /* Year slider: two native range inputs stacked on one track. The tracks ignore the pointer and only the
    thumbs catch it, so each handle drags on its own. The fill between them is drawn from --a / --b (0..1).
    Sized to the 52px height of the Make / Model selects so the row lines up. */
 .field__label--range { display: flex; justify-content: space-between; gap: var(--s-2); }
-.range__out { color: var(--text); font-variant-numeric: tabular-nums; }
+.range__out { font-weight: 400; color: var(--text-faint); font-variant-numeric: tabular-nums; transition: color var(--t-fast) var(--ease); }
+.range__out.is-on { color: var(--text); }   /* a year range is set */
 .range { --a: 0; --b: 1; --thumb: 20px; position: relative; height: 52px; }
 .range::before, .range__fill {
   content: ""; position: absolute; top: 50%; height: 2px; margin-top: -1px; border-radius: 2px; pointer-events: none;
@@ -671,8 +676,11 @@ html.has-drawer { overflow: hidden; }
 .field--select { grid-template-columns: auto 13rem; align-items: center; column-gap: 0.75rem; }
 
 @media (min-width: 1024px) {
-  .finder { grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--s-4); align-items: center; }
-  .finder .field--search, .finder__filters, .finder__filters ~ .finder__meta { grid-column: 1 / -1; }
+  /* row 1: search across; row 2: the filters on the left, the count and Sort on the right, bottoms aligned */
+  .finder { grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--s-4); align-items: end; }
+  .finder .field--search { grid-column: 1 / -1; }
+  .finder__filters { grid-column: 1; }
+  .finder__filters ~ .finder__meta { grid-column: 2; }
   .finder__meta { flex-wrap: nowrap; gap: var(--s-4); }
 }
 

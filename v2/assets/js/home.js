@@ -67,6 +67,7 @@
     // the lower handle sits on top when both are pushed to the right end, so it can still be dragged back
     f.yearMin.style.zIndex = yMin() >= yHi ? 3 : '';
     const out = filters.querySelector('[data-year-out]');
+    if (out) out.classList.toggle('is-on', yearsOn());
     if (out) out.textContent = yearsOn() ? (yMin() === yMax() ? String(yMin()) : `${yMin()} – ${yMax()}`) : 'Any year';
   };
   const resetYears = () => { if (f.yearMin) { f.yearMin.value = yLo; f.yearMax.value = yHi; syncYears(); } };
