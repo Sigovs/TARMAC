@@ -14,7 +14,7 @@
 
   const grid = document.querySelector('[data-grid]');
   const search = document.querySelector('[data-search]');
-  const filters = document.querySelector('[data-filters]');   // SRP only: Year from / to, Make, Model
+  const filters = document.querySelector('[data-filters]');   // SRP only: Year slider, Make, Model
   const f = filters ? Object.fromEntries([...filters.querySelectorAll('[data-f]')].map((el) => [el.dataset.f, el])) : {};
   const sortSelect = document.querySelector('[data-sort]');
   const count = document.querySelector('[data-count]');
@@ -49,12 +49,32 @@
 
   /* ---------- filtering (SRP) ---------- */
   const val = (el) => (el && el.value !== 'all' ? el.value : null);
-  const matchesFilters = (c) => {
-    const from = val(f.yearFrom), to = val(f.yearTo), make = val(f.make), model = val(f.model);
-    return (!from || c.year >= +from) && (!to || c.year <= +to)
-      && (!make || c.make === make) && (!model || c.model === model);
+
+  // Year: one slider with two handles (Alex 2026-11-16: no from/to dropdowns). Bounds come from the lot.
+  const yearList = cars.map((c) => c.year);
+  const yLo = Math.min(...yearList), yHi = Math.max(...yearList);
+  const yMin = () => (f.yearMin ? +f.yearMin.value : yLo), yMax = () => (f.yearMax ? +f.yearMax.value : yHi);
+  const inYears = (c) => c.year >= yMin() && c.year <= yMax();
+  const yearsOn = () => yMin() > yLo || yMax() < yHi;
+  const syncYears = (moved) => {
+    if (!f.yearMin) return;
+    if (+f.yearMin.value > +f.yearMax.value) {   // handles can meet but never cross
+      if (moved === f.yearMin) f.yearMin.value = f.yearMax.value; else f.yearMax.value = f.yearMin.value;
+    }
+    const span = yHi - yLo || 1, a = (yMin() - yLo) / span, b = (yMax() - yLo) / span;
+    const range = f.yearMin.parentElement;
+    range.style.setProperty('--a', a); range.style.setProperty('--b', b);
+    // the lower handle sits on top when both are pushed to the right end, so it can still be dragged back
+    f.yearMin.style.zIndex = yMin() >= yHi ? 3 : '';
+    const out = filters.querySelector('[data-year-out]');
+    if (out) out.textContent = yearsOn() ? (yMin() === yMax() ? String(yMin()) : `${yMin()} – ${yMax()}`) : 'Any year';
   };
-  const filtersOn = () => ['yearFrom', 'yearTo', 'make', 'model'].some((k) => val(f[k]));
+  const resetYears = () => { if (f.yearMin) { f.yearMin.value = yLo; f.yearMax.value = yHi; syncYears(); } };
+  const matchesFilters = (c) => {
+    const make = val(f.make), model = val(f.model);
+    return inYears(c) && (!make || c.make === make) && (!model || c.model === model);
+  };
+  const filtersOn = () => yearsOn() || ['make', 'model'].some((k) => val(f[k]));
 
   // options come from the inventory itself, so a filter can never offer a year or make that isn't on the lot
   const uniq = (arr) => [...new Set(arr)];
@@ -69,9 +89,8 @@
     fillSelect(f.model, models, f.model.value);
   };
   if (filters) {
-    const years = uniq(cars.map((c) => c.year)).sort((a, b) => a - b);
-    fillSelect(f.yearFrom, years, 'all');
-    fillSelect(f.yearTo, [...years].reverse(), 'all');
+    [f.yearMin, f.yearMax].forEach((el) => { if (el) { el.min = yLo; el.max = yHi; el.step = 1; } });
+    resetYears();
     fillSelect(f.make, uniq(cars.map((c) => c.make)).sort(), 'all');
     fillModels();
   }
@@ -178,7 +197,11 @@
     const fromURL = new URLSearchParams(location.search).get('q');
     if (search && fromURL) search.value = fromURL;
     if (search) search.addEventListener('input', render);
+    if (filters) filters.addEventListener('input', (e) => {   // the year handles update the list while dragging
+      if (e.target === f.yearMin || e.target === f.yearMax) { syncYears(e.target); render(); }
+    });
     if (filters) filters.addEventListener('change', (e) => {
+      if (e.target === f.yearMin || e.target === f.yearMax) { syncYears(e.target); render(); return; }
       if (e.target === f.make) { fillModels(); f.model.dispatchEvent(new Event('change')); }   // Model follows Make (and resyncs its dropdown)
       render();
     });
@@ -188,7 +211,8 @@
     grid.addEventListener('click', (e) => {
       if (!e.target.closest('[data-clear]')) return;
       if (search) search.value = '';
-      ['yearFrom', 'yearTo', 'make'].forEach((k) => { if (f[k]) { f[k].value = 'all'; f[k].dispatchEvent(new Event('change')); } });
+      resetYears();
+      ['make'].forEach((k) => { if (f[k]) { f[k].value = 'all'; f[k].dispatchEvent(new Event('change')); } });
       if (filters) { fillModels(); f.model.value = 'all'; f.model.dispatchEvent(new Event('change')); }
       render();
       if (search) search.focus();
@@ -284,10 +308,27 @@
   menu.querySelectorAll('[data-menu-link]').forEach((a) => a.addEventListener('click', () => menu.close()));
 
   /* ---------- nav: "you are here" ----------
-     V2: plain text links, no highlight pill (Kirsten 2026-11-16). The link of the section currently
+     V2: no capsule around the links (Kirsten 2026-11-16); the hover pill stays. The link of the section currently
      crossing the middle of the screen gets aria-current="true" (white text, see site.css). */
   const navList = document.querySelector('.nav__list');
   if (navList) {
+    // hover highlight: the pill slides to the hovered / focused link, fades when the pointer leaves
+    const pill = navList.querySelector('.nav__pill');
+    if (pill) {
+      const moveTo = (a) => {
+        if (!a) { pill.classList.remove('is-on'); return; }
+        const box = navList.getBoundingClientRect(), r = a.getBoundingClientRect();
+        pill.style.setProperty('--pill-x', `${r.left - box.left - navList.clientLeft}px`);
+        pill.style.setProperty('--pill-w', `${r.width}px`);
+        pill.classList.add('is-on');
+      };
+      navList.querySelectorAll('a').forEach((a) => {
+        a.addEventListener('mouseenter', () => moveTo(a));
+        a.addEventListener('focus', () => moveTo(a));
+      });
+      navList.addEventListener('mouseleave', () => moveTo(null));
+      navList.addEventListener('focusout', (e) => { if (!navList.contains(e.relatedTarget)) moveTo(null); });
+    }
     const hashLinks = [...navList.querySelectorAll('a')].filter((a) => a.getAttribute('href').startsWith('#'));
     const clear = () => hashLinks.forEach((a) => a.removeAttribute('aria-current'));
     const targets = hashLinks.map((a) => document.getElementById(a.getAttribute('href').slice(1))).filter(Boolean);

@@ -19,7 +19,7 @@
 
   if (!car) {
     root.querySelector('[data-vdp-body]').hidden = true;
-    root.querySelector('[data-vdp-gallery]').hidden = true;
+    root.querySelector('[data-vdp-photos-section]').hidden = true;
     root.querySelector('[data-vdp-missing]').hidden = false;
     document.title = 'Car not found — Tarmac Motors';
     return;
@@ -70,25 +70,20 @@
       <span class="car__count" data-g-count aria-hidden="true">1 / ${photos.length}</span>
       <button class="gallery__full" type="button" data-open-current aria-label="View full screen">${ICON.expand}</button>
     </div>
-    <div class="container">
-      <ul class="gallery__thumbs" aria-label="Choose a photo">
-        ${photos.map((src, i) => `
-        <li><button class="gallery__thumb" type="button" data-thumb="${i}" aria-label="Photo ${i + 1}" ${i === 0 ? 'aria-current="true"' : ''}>
-          <img src="${src}" alt="" width="160" height="107" loading="lazy" decoding="async">
-        </button></li>`).join('')}
-      </ul>
-    </div>`;
+    <ul class="gallery__thumbs" aria-label="Choose a photo">
+      ${photos.map((src, i) => `
+      <li><button class="gallery__thumb" type="button" data-thumb="${i}" aria-label="Photo ${i + 1}" ${i === 0 ? 'aria-current="true"' : ''}>
+        <img src="${src}" alt="" width="160" height="107" loading="lazy" decoding="async">
+      </button></li>`).join('')}
+    </ul>`;
 
   const track = gallery.querySelector('[data-g-track]');
   const countEl = gallery.querySelector('[data-g-count]');
   const thumbs = [...gallery.querySelectorAll('[data-thumb]')];
-  // V2: the full-width strip shows more than one photo, so a step is one photo plus the gap, not the track width
-  const step = () => track.children[0].getBoundingClientRect().width + (parseFloat(getComputedStyle(track).columnGap) || 0);
-  const atEnd = () => track.scrollLeft >= track.scrollWidth - track.clientWidth - 2;
-  const index = () => (atEnd() ? photos.length - 1 : Math.round(track.scrollLeft / step()));
+  const index = () => Math.round(track.scrollLeft / track.clientWidth);
   const goTo = (i) => {
     const n = (i + photos.length) % photos.length;   // wraps, like the cards
-    track.scrollTo({ left: n * step(), behavior: reduce.matches ? 'auto' : 'smooth' });   // the browser stops at the end
+    track.scrollTo({ left: n * track.clientWidth, behavior: reduce.matches ? 'auto' : 'smooth' });
   };
   track.addEventListener('scroll', () => {
     const i = index();
@@ -198,7 +193,12 @@
 
   /* ---------- uniform photo grid (repeated placeholder photos shown once) ---------- */
   const unique = [...new Set(photos)];
-  root.querySelector('[data-vdp-photos]').innerHTML = unique.map((src) => {
+  const photoGrid = root.querySelector('[data-vdp-photos]');
+  // three across: a remainder of 1 or 2 turns the last rows into pairs (10 photos = 3 + 3 + 2 + 2), see site.css
+  photoGrid.dataset.rest = unique.length % 3;
+  // a single photo is already the whole top gallery: no point repeating it full width
+  if (unique.length < 2) root.querySelector('[data-vdp-photos-section]').hidden = true;
+  photoGrid.innerHTML = unique.map((src) => {
     const i = photos.indexOf(src);
     return `<li><button class="photo-grid__item" type="button" data-open="${i}" aria-label="Open photo ${i + 1} full screen">
       <img src="${src}" alt="" width="1600" height="1067" loading="lazy" decoding="async"></button></li>`;
