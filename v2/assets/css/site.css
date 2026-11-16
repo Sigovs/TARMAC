@@ -680,6 +680,14 @@ html.has-drawer { overflow: hidden; }
   .rail__arrow[disabled] { opacity: 0.25; cursor: default; pointer-events: none; }
   .rail--static .rail__arrow { display: none; }
 }
+/* In the rail the side arrows are the only arrows at rest (Alex 2026-11-16: eight identical circles in a row
+   read as noise). A card's own photo arrows show while the pointer is on that card or focus is inside it;
+   touch screens have no hover, so there they stay visible as before. */
+@media (hover: hover) and (pointer: fine) {
+  .car-grid--rail .car__arrow:not([disabled]) { opacity: 0; }
+  .car-grid--rail .car:hover .car__arrow:not([disabled]),
+  .car-grid--rail .car:focus-within .car__arrow:not([disabled]) { opacity: 1; }
+}
 
 .car {
   position: relative; display: grid; grid-template-rows: auto 1fr auto; gap: var(--s-2);
