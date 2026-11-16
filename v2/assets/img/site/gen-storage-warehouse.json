@@ -1,0 +1,18 @@
+{
+  "file": "gen-storage-warehouse.jpg",
+  "origin": "synthetic (AI image edit) + retouch",
+  "model": "fal-ai/nano-banana-pro/edit",
+  "date": "2026-11-15",
+  "requested_by": "Alex: 'bad image', make a photo background, more alive, space, warehouse, maybe people",
+  "sources": [
+    "assets/img/inv/2015-porsche-911-gts/01.jpg",
+    "assets/img/inv/1995-chevrolet-corvette-pace-car/02.jpg",
+    "assets/img/inv/1973-lincoln-continental-town-coupe/02.jpg",
+    "assets/img/inv/2005-cadillac-xlr/01.jpg"
+  ],
+  "fal_request_id": "01a1dec6-6179-7842-ba37-d9c1884d19e9",
+  "variant": "image 2 of 2 (image 1: denser and less air)",
+  "retouch": "None (Alex: no blurs). Darkened in export: brightness 86%, saturation 92%. The Corvette windshield banner is the car's own Pace Car decal.",
+  "warning": "Shows a storage warehouse with people working. It can read as Tarmac's real premises and staff (GI3). Preview placeholder only: replace with photos of the real storage before launch.",
+  "prompt": "Use the cars from the reference photos (silver Porsche 911 GTS, burgundy-and-white 1995 Corvette convertible, black 1973 Lincoln Continental, blue Cadillac XLR) as some of the cars in the scene, keeping them as they are.\n\nNew scene: a large, airy, high-ceilinged car storage warehouse full of life. Wide cinematic 16:9 photograph, eye level, deep one-point perspective down a long central aisle. On both sides, rows of interesting classic and modern enthusiast cars parked neatly, about ten to fourteen cars in total, a few of them under fitted dark-graphite covers. Soft cool daylight pours in from long skylights and high industrial windows, mixed with linear LED lights; polished light-grey concrete floor with gentle reflections; exposed steel roof trusses. Two or three people in plain dark work clothes, seen at a distance and partly from behind, going about their work: one folding back a car cover, one walking down the aisle, one checking a car. Natural, candid, unposed; faces not prominent.\n\nThe upper third of the frame (the high roof and skylights) is calm and fairly even in tone, so a centred headline can sit over it. Lots of space and air.\n\nCool neutral colour grade, steel, graphite and daylight blue: no orange, amber, gold, sepia or warm brown light. No text, no signage, no logos, no labels, no readable licence plates, no watermarks. Photorealistic professional architectural and automotive photography, natural lens, realistic depth."
+}

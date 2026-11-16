@@ -1,0 +1,14 @@
+{
+  "file": "gen-sell-drive-in.jpg",
+  "origin": "synthetic (AI image edit)",
+  "model": "fal-ai/nano-banana-pro/edit",
+  "date": "2026-11-15",
+  "requested_by": "Alex",
+  "sources": [
+    "assets/img/site/gen-about-warehouse.jpg (same building, reverse view)"
+  ],
+  "fal_request_id": "01a1df28-e139-75f1-998f-63c78e847d8c",
+  "prompt_summary": "Reverse view from inside the same warehouse: looking out through the open roll-up door at the wet lot and blue evening sky; a customer's dark 1980s German sedan (generic, no readable badges, no plate) driving in with headlights on; polished concrete floor; noses of two parked cars along the right wall; no people, no text, no logos; cool light only.",
+  "output": "2048x2048 JPEG, resized to 1800, q82",
+  "note": "Replaces the key-handover image (Alex: too typical). Generic car, not a listing. Orange hues desaturated (grade only). Client asked for no AI images: preview placeholder only."
+}

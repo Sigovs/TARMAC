@@ -1,0 +1,25 @@
+{
+  "file": "gen-trust-lincoln-prairie.jpg",
+  "origin": "synthetic (AI image edit, two passes)",
+  "model": "fal-ai/nano-banana-pro/edit",
+  "date": "2026-11-15",
+  "requested_by": "Alex: the trust band in the same style as the hero (blue-hour, rolling shot, cool grade), with a different car and landscape",
+  "sources": [
+    "assets/img/inv/1973-lincoln-continental-town-coupe/01.jpg",
+    "assets/img/inv/1973-lincoln-continental-town-coupe/08.jpg"
+  ],
+  "passes": [
+    {
+      "fal_request_id": "01a1def4-89ec-7e73-9c5f-285b1dfc52cd",
+      "result": "rejected as the final frame: car too big and too low (sat under the glass cards), sharp static wheels, a solid black bar at the bottom. Used as the input of pass 2."
+    },
+    {
+      "fal_request_id": "01a1def6-2baa-78e1-b68b-7f040d4afbe8",
+      "result": "used",
+      "prompt": "Re-frame this photograph as a wider shot from further back, keeping the same black 1973 Lincoln Continental (exactly as in the second reference photo: same body, chrome grille, chrome bumpers, black vinyl roof), the same flat prairie highway after a storm, the same blue-hour storm sky and the same cold steel-blue colour grade. New framing, 16:9: the camera is pulled back and slightly lower, so the car is much smaller: about one fifth of the frame width, placed in the RIGHT part of the frame and HIGH in the frame. The flat horizon runs at about 40% of the frame height. Dark storm clouds above; a long stretch of wet, dark, reflective asphalt fills the lower half. Wheels spinning with motion blur, spray, foreground streaked; car body sharp. No black bars. No license plate and no plate holder. No people, no other vehicles, no road signs, no buildings, no text, no logos, no watermarks. Photorealistic professional automotive photography."
+    }
+  ],
+  "retouch": "An empty plate bracket under the front bumper was filled row by row with the colour of the black valance either side (flat fill, no blur); invisible at display size.",
+  "output": "2752x1536 JPEG, resized to 2560x1429, q82",
+  "warning": "Client asked for no AI images and this car appears in the sample inventory. Preview placeholder only: replace before launch."
+}

@@ -1,0 +1,13 @@
+{
+  "file": "gen-sell-keys.jpg",
+  "origin": "synthetic (AI image edit)",
+  "model": "fal-ai/nano-banana-pro/edit",
+  "date": "2026-11-15",
+  "requested_by": "Alex: the Sell background must read as selling a car (not services); no Toyota; no blurs",
+  "sources": [
+    "assets/img/inv/1973-lincoln-continental-town-coupe/02.jpg"
+  ],
+  "fal_request_id": "01a1dee6-24ae-78f3-bc66-4471963d490f",
+  "prompt": "Use the black 1973 Lincoln Continental coupe from the reference photo, keeping the car exactly as it is. Do not restyle it.\n\nNew scene: the moment a car is sold. Square 1:1 photograph, close, candid and warm in feeling but cool in colour. In the foreground, one person's hand passes a single car key into another person's open hand; both wear plain dark sleeves; only hands and forearms are visible, no faces. Behind them, softly out of focus, the glossy black Lincoln's long front end and chrome grille, parked indoors under soft cool light. The hands and key sit left of centre; the right third of the frame falls into deep graphite shadow.\n\nCool neutral colour grade, graphite, steel and black: no orange, amber, gold, sepia or warm brown light. No text, no paperwork, no logos or badges legible, no key-fob branding, no licence plates, no watermarks. Photorealistic professional photography, shallow depth of field, natural skin tones.",
+  "note": "Generic people (hands only), not Tarmac staff. Client asked for no AI images: preview placeholder only."
+}

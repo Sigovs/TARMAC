@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Car — Tarmac Motors</title>
+  <meta name="description" content="A car for sale at Tarmac Motors, Oklahoma City.">
+  <meta name="theme-color" content="#101113">
+  <link rel="icon" href="assets/img/brand/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/img/brand/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="assets/img/brand/apple-touch-icon.png">
+
+  <!-- Type: Archivo (variable width + weight) is the only typeface. The logo is an SVG.
+       Photos and listings are placeholders: see assets/img/PROVENANCE.md and assets/js/data.js. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/site.css?v=20261116a">
+  <!-- Smooth scrolling (Lenis, pinned version). See assets/js/smooth-scroll.js -->
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.27/dist/lenis.css">
+</head>
+<body class="subpage">
+
+<!-- ============ HEADER (Superior pattern: wordmark left, nav right with "/" separators) ============ -->
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="wordmark" href="index.html" aria-label="Tarmac Motors, home">
+      <!-- Logo: Alex's SVG (assets/img/brand/tarmac-logo.svg, copied from /logo.svg), trial 2026-11-15. -->
+      <img class="wordmark__logo" src="assets/img/brand/tarmac-logo.svg" alt="" width="367" height="79">
+    </a>
+
+    <nav class="nav" aria-label="Main">
+      <ul class="nav__list">
+        <li class="nav__pill" aria-hidden="true"></li>
+        <li><a href="inventory.html" aria-current="page"><span class="roll" data-text="Inventory"><span>Inventory</span></span></a></li>
+        <li><a href="index.html#sell"><span class="roll" data-text="Sell Your Car"><span>Sell Your Car</span></span></a></li>
+        <li><a href="index.html#services"><span class="roll" data-text="Services"><span>Services</span></span></a></li>
+        <li><a href="index.html#storage"><span class="roll" data-text="Car Storage"><span>Car Storage</span></span></a></li>
+        <li><a href="index.html#about"><span class="roll" data-text="About Us"><span>About Us</span></span></a></li>
+        <li><a href="index.html#contact"><span class="roll" data-text="Contact"><span>Contact</span></span></a></li>
+      </ul>
+    </nav>
+
+    <a class="header-phone" href="tel:+14052379363">
+      <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M6.6 3.5h3l1.5 4.2-2 1.3a11 11 0 0 0 5.9 5.9l1.3-2 4.2 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2Z"/></svg>
+      <span class="header-phone__number">(405) 237-9363</span>
+    </a>
+
+    <button class="menu-button" type="button" aria-haspopup="dialog" aria-controls="menu" data-menu-open>
+      <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 8h16M4 16h16"/></svg>
+      <span>Menu</span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile menu (native <dialog>: focus trap + Esc for free) -->
+<dialog class="menu" id="menu" aria-label="Menu" data-lenis-prevent>
+  <div class="menu__top">
+    <img class="wordmark__logo" src="assets/img/brand/tarmac-logo.svg" alt="Tarmac Motors" width="367" height="79">
+    <button class="menu-button" type="button" data-menu-close>
+      <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      <span>Close</span>
+    </button>
+  </div>
+  <ul class="menu__list">
+    <li><a href="inventory.html" data-menu-link>Inventory</a></li>
+    <li><a href="index.html#sell" data-menu-link>Sell Your Car</a></li>
+    <li><a href="index.html#services" data-menu-link>Services</a></li>
+    <li><a href="index.html#storage" data-menu-link>Car Storage</a></li>
+    <li><a href="index.html#about" data-menu-link>About Us</a></li>
+    <li><a href="index.html#contact" data-menu-link>Contact</a></li>
+  </ul>
+  <div class="menu__contact">
+    <a class="button button--primary button--block" href="tel:+14052379363">Call (405) 237-9363</a>
+    <p>8401 N Classen Blvd<br>Oklahoma City, OK 73114</p>
+  </div>
+</dialog>
+
+<!-- Side drawer (native <dialog>): Ask About Services / Ask About Storage / Text to Phone / Share.
+     One panel slides in from the right; home.js fills it from the <template>s below.
+     PREVIEW: nothing is sent. On the platform: the Ask forms post to the dealer's lead inbox,
+     "Send text" goes through AAN's SMS service and "Send email" through its mailer. -->
+<dialog class="drawer" id="drawer" aria-labelledby="drawer-title" data-lenis-prevent>
+  <div class="drawer__panel">
+    <header class="drawer__head">
+      <h2 class="drawer__title" id="drawer-title"></h2>
+      <button class="drawer__close" type="button" data-drawer-close aria-label="Close"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </header>
+    <div class="drawer__body" data-drawer-body></div>
+  </div>
+</dialog>
+
+<template id="tpl-services">
+  <p class="drawer__lede">Through our partner shop. Pricing on request.</p>
+  <form class="form" data-preview-form data-success="Thanks, we’ll get back to you about it soon.">
+    <fieldset class="drawer__group">
+      <legend class="field__label">What are you interested in?</legend>
+      <div class="chips">
+        <label class="chip"><input type="checkbox" name="service" value="Ceramic Coating"><span>Ceramic Coating</span></label>
+        <label class="chip"><input type="checkbox" name="service" value="Paint Protection Film"><span>Paint Protection Film</span></label>
+        <label class="chip"><input type="checkbox" name="service" value="Custom Wraps"><span>Custom Wraps</span></label>
+        <label class="chip"><input type="checkbox" name="service" value="Not sure yet"><span>Not sure yet</span></label>
+      </div>
+    </fieldset>
+    <div class="form__row">
+      <label class="field"><span class="field__label">First name</span><input name="first-name" autocomplete="given-name" required></label>
+      <label class="field"><span class="field__label">Phone</span><input name="phone" type="tel" autocomplete="tel" required></label>
+    </div>
+    <label class="field"><span class="field__label">Your car</span><input name="vehicle" placeholder="Year, make and model"></label>
+    <label class="field"><span class="field__label">Message</span><textarea name="message" rows="3"></textarea></label>
+    <button class="button button--primary button--block" type="submit">Send request</button>
+    <p class="form__status" role="status" data-form-status></p>
+  </form>
+</template>
+
+<!-- Storage durations are SIMULATED choices: confirm what the client offers. -->
+<template id="tpl-storage">
+  <p class="drawer__lede">Room for your car between drives. Tell us about the car and we’ll come back with space and terms.</p>
+  <form class="form" data-preview-form data-success="Thanks, we’ll get back to you about space and terms.">
+    <fieldset class="drawer__group">
+      <legend class="field__label">For how long?</legend>
+      <div class="chips">
+        <label class="chip"><input type="radio" name="term" value="A few months"><span>A few months</span></label>
+        <label class="chip"><input type="radio" name="term" value="The winter"><span>The winter</span></label>
+        <label class="chip"><input type="radio" name="term" value="Long term"><span>Long term</span></label>
+        <label class="chip"><input type="radio" name="term" value="Not sure yet"><span>Not sure yet</span></label>
+      </div>
+    </fieldset>
+    <div class="form__row">
+      <label class="field"><span class="field__label">First name</span><input name="first-name" autocomplete="given-name" required></label>
+      <label class="field"><span class="field__label">Phone</span><input name="phone" type="tel" autocomplete="tel" required></label>
+    </div>
+    <label class="field"><span class="field__label">Your car</span><input name="vehicle" placeholder="Year, make and model"></label>
+    <label class="field"><span class="field__label">Message</span><textarea name="message" rows="3"></textarea></label>
+    <button class="button button--primary button--block" type="submit">Ask about storage</button>
+    <p class="form__status" role="status" data-form-status></p>
+  </form>
+</template>
+
+<template id="tpl-text">
+      <div class="drawer__car">
+        <img data-car-img src="" alt="" width="1600" height="1067">
+        <div><p class="drawer__car-title" data-car-title></p><p class="drawer__car-price" data-car-price></p></div>
+      </div>
+  <form class="form" data-preview-form data-success="Sent. They’ll get a text with the link to this car.">
+    <p class="drawer__lede">Send this car to someone’s phone. They get a text with the link.</p>
+    <label class="field"><span class="field__label">Their phone number</span><input name="to-phone" type="tel" autocomplete="off" required></label>
+    <label class="field"><span class="field__label">Your name <span class="field__opt">(optional)</span></span><input name="from-name" autocomplete="name"></label>
+    <div class="drawer__preview"><span class="field__label">Message</span><p data-car-message></p></div>
+    <button class="button button--primary button--block" type="submit">Send text</button>
+    <p class="form__status" role="status" data-form-status></p>
+  </form>
+  <div class="drawer__alt">
+    <p class="drawer__alt-label">Or use your phone</p>
+    <a class="button button--secondary button--block" data-car-sms href="#">Open Messages</a>
+  </div>
+</template>
+
+<template id="tpl-share">
+      <div class="drawer__car">
+        <img data-car-img src="" alt="" width="1600" height="1067">
+        <div><p class="drawer__car-title" data-car-title></p><p class="drawer__car-price" data-car-price></p></div>
+      </div>
+  <form class="form" data-preview-form data-success="Sent. They’ll get an email with the link to this car.">
+    <p class="drawer__lede">Email this car to someone.</p>
+    <label class="field"><span class="field__label">Their email</span><input name="to-email" type="email" autocomplete="off" required></label>
+    <label class="field"><span class="field__label">Your name <span class="field__opt">(optional)</span></span><input name="from-name" autocomplete="name"></label>
+    <label class="field"><span class="field__label">Note <span class="field__opt">(optional)</span></span><textarea name="note" rows="2"></textarea></label>
+    <button class="button button--primary button--block" type="submit">Send email</button>
+    <p class="form__status" role="status" data-form-status></p>
+  </form>
+  <div class="drawer__alt">
+    <p class="drawer__alt-label">Other ways to share</p>
+    <div class="drawer__options">
+      <button class="button button--secondary" type="button" data-copy-link>Copy link</button>
+      <button class="button button--secondary" type="button" data-drawer-switch="text">Text to phone</button>
+      <a class="button button--secondary" data-car-mailto href="#">Email app</a>
+      <button class="button button--secondary" type="button" data-native-share hidden>More</button>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-car">
+      <div class="drawer__car">
+        <img data-car-img src="" alt="" width="1600" height="1067">
+        <div><p class="drawer__car-title" data-car-title></p><p class="drawer__car-price" data-car-price></p></div>
+      </div>
+  <form class="form" data-preview-form data-success="Thanks, we’ll get back to you about this car soon.">
+    <div class="form__row">
+      <label class="field"><span class="field__label">First name</span><input name="first-name" autocomplete="given-name" required></label>
+      <label class="field"><span class="field__label">Phone</span><input name="phone" type="tel" autocomplete="tel" required></label>
+    </div>
+    <label class="field"><span class="field__label">Email <span class="field__opt">(optional)</span></span><input name="email" type="email" autocomplete="email"></label>
+    <label class="field"><span class="field__label">Message</span><textarea name="message" rows="3" data-car-question></textarea></label>
+    <button class="button button--primary button--block" type="submit">Send</button>
+    <p class="form__status" role="status" data-form-status></p>
+  </form>
+  <div class="drawer__alt">
+    <p class="drawer__alt-label">Or call us</p>
+    <a class="button button--secondary button--block" href="tel:+14052379363">(405) 237-9363</a>
+  </div>
+</template>
+
+
+
+<!-- ============ VDP: one car (vehicle.html?car=<id>), built by assets/js/vdp.js from data.js.
+     Client: description (open, never behind a button), VIN decoding, video, no finance buttons
+     (Sell Your Car instead; on phones the description sits ABOVE it), no automatic slideshow. ============ -->
+<main id="top" class="vdp" data-vdp>
+  <div class="container">
+    <nav class="vdp__crumbs" aria-label="Breadcrumb">
+      <a class="vdp__back" href="inventory.html"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m14.5 6-6 6 6 6"/></svg>All inventory</a>
+    </nav>
+
+    <div class="vdp__grid" data-vdp-body>
+      <section class="vdp__gallery" aria-label="Photos" data-vdp-gallery></section>
+
+      <!-- Desktop: one sticky column (car summary + Sell Your Car). Phones: its two parts
+           become separate rows, so the description can sit between them. -->
+      <div class="vdp__side">
+        <div class="vdp__panel" data-vdp-panel></div>
+        <section class="vdp__sell" aria-labelledby="vdp-sell-title">
+          <h2 class="vdp__sell-title" id="vdp-sell-title">Have a car to sell or trade?</h2>
+          <p>Put it toward this one, or let us make you an offer.</p>
+          <a class="button button--secondary button--block" href="index.html#sell">Sell Your Car</a>
+        </section>
+      </div>
+
+      <section class="vdp__section vdp__desc" aria-labelledby="vdp-desc-title">
+        <h2 class="vdp__h2" id="vdp-desc-title">Description</h2>
+        <div class="vdp__text" data-vdp-desc></div>
+      </section>
+
+      <section class="vdp__section vdp__vin" aria-labelledby="vdp-vin-title">
+        <h2 class="vdp__h2" id="vdp-vin-title">VIN Decoded</h2>
+        <p class="vdp__sub">Factory specification from the VIN.</p>
+        <dl class="vin" data-vdp-vin></dl>
+      </section>
+
+      <section class="vdp__section vdp__video" aria-labelledby="vdp-video-title">
+        <h2 class="vdp__h2" id="vdp-video-title">Video</h2>
+        <div data-vdp-video></div>
+      </section>
+
+      <section class="vdp__section vdp__photos" aria-labelledby="vdp-photos-title">
+        <h2 class="vdp__h2" id="vdp-photos-title">Photos</h2>
+        <ul class="photo-grid" data-vdp-photos></ul>
+      </section>
+    </div>
+
+    <div class="vdp__missing" data-vdp-missing hidden>
+      <h1 class="section-title">This car isn’t on the lot</h1>
+      <p class="section-intro">It may have sold. Have a look at what’s in stock now.</p>
+      <a class="button button--primary" href="inventory.html">See inventory</a>
+    </div>
+  </div>
+</main>
+
+<!-- Full-screen photo viewer: click a photo. Arrows, keyboard, swipe; never advances on its own. -->
+<dialog class="lightbox" id="lightbox" aria-label="Photo viewer" data-lenis-prevent>
+  <img class="lightbox__img" data-lb-img src="" alt="">
+  <button class="lightbox__btn lightbox__close" type="button" data-lb-close aria-label="Close"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  <button class="lightbox__btn lightbox__prev" type="button" data-lb-prev aria-label="Previous photo"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m14.5 6-6 6 6 6"/></svg></button>
+  <button class="lightbox__btn lightbox__next" type="button" data-lb-next aria-label="Next photo"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6"/></svg></button>
+  <p class="lightbox__count" data-lb-count aria-live="polite"></p>
+</dialog>
+
+<footer class="site-footer fx-ambient">
+  <!-- Full-width map, black and white (CSS filter). Google Maps embed without a key: fine for the
+       preview; AAN can swap in their own map. The address is public (intake form, shown on the page). -->
+  <div class="footer-map">
+    <iframe title="Map: Tarmac Motors, 8401 N Classen Blvd, Oklahoma City" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+      src="https://maps.google.com/maps?q=8401%20N%20Classen%20Blvd%2C%20Oklahoma%20City%2C%20OK%2073114&amp;z=15&amp;output=embed"></iframe>
+    <div class="footer-map__card container">
+      <div class="footer-map__chip">
+        <span class="footer-map__label">Visit</span>
+        <span class="footer-map__addr">8401 N Classen Blvd, Oklahoma City, OK 73114</span>
+        <a class="button button--primary" href="https://www.google.com/maps/search/?api=1&amp;query=8401+N+Classen+Blvd+Oklahoma+City+OK+73114" target="_blank" rel="noopener">Get directions</a>
+      </div>
+    </div>
+  </div>
+  <div class="container site-footer__grid">
+    <div class="site-footer__brand">
+      <img class="wordmark__logo wordmark__logo--large" src="assets/img/brand/tarmac-logo.svg" alt="Tarmac Motors" width="367" height="79">
+    </div>
+    <div>
+      <h2 class="site-footer__label">Visit</h2>
+      <p>8401 N Classen Blvd<br>Oklahoma City, OK 73114</p>
+    </div>
+    <div>
+      <h2 class="site-footer__label">Contact</h2>
+      <p><a class="link" href="tel:+14052379363">(405) 237-9363</a><br><a class="link" href="index.html#contact">Send a message</a></p>
+    </div>
+    <nav aria-label="Footer">
+      <h2 class="site-footer__label">Pages</h2>
+      <ul class="site-footer__nav">
+        <li><a class="link" href="inventory.html">Inventory</a></li>
+        <li><a class="link" href="index.html#sell">Sell Your Car</a></li>
+        <li><a class="link" href="index.html#services">Services</a></li>
+        <li><a class="link" href="index.html#storage">Car Storage</a></li>
+        <li><a class="link" href="index.html#about">About Us</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="container site-footer__base">
+    <p>© 2026 Tarmac Motors, LLC</p>
+    <p>Powered by All Auto Network</p>
+  </div>
+</footer>
+
+<script src="assets/js/data.js?v=20261116a"></script>
+<script src="assets/js/home.js?v=20261116a"></script>
+<script src="https://unpkg.com/lenis@1.3.27/dist/lenis.min.js"></script>
+<script src="assets/js/smooth-scroll.js?v=20261116a"></script>
+<script src="assets/js/vdp.js?v=20261116a"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "file": "gen-services-coating.jpg",
+  "origin": "synthetic (AI image edit)",
+  "model": "fal-ai/nano-banana-pro/edit",
+  "date": "2026-11-15",
+  "requested_by": "Alex (designer), Services band background 'po smislu'",
+  "sources": [
+    "assets/img/inv/1998-toyota-supra-turbo/01.jpg"
+  ],
+  "fal_request_id": "01a1deaf-b726-7012-b836-84629fedc38b",
+  "variant": "image 1 of 2 (image 2 rejected: Toyota badge in frame)",
+  "prompt": "Use the silver 1998 Toyota Supra Turbo from the reference photos for the car's paint colour, body lines and bonnet shape. Do not restyle it.\n\nNew scene: paint protection detailing. Close-up, wide cinematic 16:9 photograph inside a dark, clean detailing studio. The glossy silver bonnet and front wing of the Supra fill the right half of the frame, seen low and close, with long straight cool-white LED light bars reflecting as crisp parallel lines across the paint. A detailer's hand in a black nitrile glove holds a small foam applicator pad and wipes a thin, wet-looking ceramic coating across the bonnet; the freshly coated area shows a deeper mirror gloss and beading. Only the gloved hand and part of the forearm are visible; no face, no person otherwise.\n\nThe left half and the bottom third of the frame are calm and dark: deep graphite studio background and the darker lower part of the car in shadow, little detail, so a headline and cards can sit over them.\n\nCool neutral colour grade, graphite and steel blue with crisp white highlights: no orange, amber, gold, sepia or warm brown light. No text, no logos, no labels on any bottle or product, no screens, no watermarks, no licence plate. Photorealistic professional automotive detailing photography, shallow depth of field, realistic reflections.",
+  "note": "Generic studio, not the partner shop (no claim about real premises). Client asked for no AI images: preview placeholder only, replace before launch."
+}

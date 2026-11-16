@@ -1,0 +1,17 @@
+{
+  "file": "gen-trust-supra-cabin.jpg",
+  "origin": "synthetic (AI image edit) + manual retouch",
+  "model": "fal-ai/nano-banana-pro/edit",
+  "date": "2026-11-15",
+  "requested_by": "Alex (designer), trust band 'Driven by passion. Built on trust.'",
+  "sources": [
+    "assets/img/inv/1998-toyota-supra-turbo/10.jpg",
+    "assets/img/inv/1998-toyota-supra-turbo/12.jpg"
+  ],
+  "fal_request_id": "01a1dea6-afe4-7f53-b823-a3b155961e6d",
+  "variant": "image 2 of 2 (image 1 rejected: right-hand drive, odd door-frame angle)",
+  "retouch": "ImageMagick/PIL: warning sticker on the sun visor replaced with visor texture (GI4: no text in frame); warm-grey centre line and horizon glow cooled to match the cool palette.",
+  "output": "2752x1536, resized to 2560 wide, q82",
+  "prompt": "Use the interior of the 1998 Toyota Supra Turbo shown in the reference photos: keep its dashboard shape, steering wheel, centre console, manual gear shifter and dark leather exactly as they are. Do not restyle it.\n\nNew scene: inside this Supra, driving along an empty winding two-lane country road through summer fields at blue hour, just after sunset. Wide cinematic 16:9 photograph from the driver's seat, slightly to the right of the steering wheel, looking forward through the windshield. Through the windshield: the road curving away between soft dark-green fields and a distant tree line, under a deep cool blue sky with a faint pale glow on the horizon.\n\nThe cabin is dark and moody. The top quarter of the frame is the dark roof lining and the edge of the windshield frame, almost black and calm. The bottom third is the dark dashboard top and the console in deep shadow with little detail. Shallow depth of field: the focus is on the road through the windshield; the instrument cluster and steering wheel are soft and out of focus, with no readable numbers or markings.\n\nCool neutral colour grade, blue and graphite tones: no orange, amber, gold, sepia or warm brown light anywhere. No people, no hands, no other cars, no road signs, no text, no logos, no screens, no watermarks. Photorealistic professional automotive photography, natural lens, realistic reflections on the glass.",
+  "warning": "Client asked for no AI images. Preview placeholder only: replace before launch."
+}
