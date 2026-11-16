@@ -30,7 +30,7 @@
     next: '<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6"/></svg>',
     expand: '<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',
     manual: '<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 5v14M12 5v14M18 5v7H6"/><circle cx="6" cy="5" r="1.4"/><circle cx="12" cy="5" r="1.4"/><circle cx="18" cy="5" r="1.4"/><circle cx="6" cy="19" r="1.4"/><circle cx="12" cy="19" r="1.4"/></svg>',
-    automatic: '<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M12 7v10"/><circle cx="12" cy="10" r="2.2"/></svg>',
+    automatic: '<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><rect x="4.5" y="3" width="15" height="18" rx="2.5"/><path d="M12 7v10"/><circle cx="12" cy="10" r="2.4"/></svg>',
     miles: '<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4.5 16a8 8 0 1 1 15 0"/><path d="m12 13 3.5-4"/><circle cx="12" cy="13" r="1"/></svg>',
     save: '<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10Z"/></svg>',
     text: '<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18.5h2"/></svg>',
@@ -112,7 +112,7 @@
   const carfaxHTML = `
     <a class="vdp__carfax" href="${carfaxURL}" target="_blank" rel="noopener">
       <span class="vdp__carfax-brand">
-        <img class="vdp__carfax-logo" src="assets/img/brand/carfax-logo-white.svg?v=20261115d" alt="CARFAX" width="366" height="71">
+        <img class="vdp__carfax-logo" src="assets/img/brand/carfax-logo-white.svg?v=20261115g" alt="CARFAX" width="366" height="71">
         <span class="vdp__carfax-tag">Vehicle History Reports</span>
       </span>
       <span class="vdp__carfax-text"><strong>View the report</strong><span>${esc(car.carfaxNote || 'Accidents, owners, service')}</span></span>
