@@ -101,6 +101,20 @@ Some Gold Coast shots still show that dealer's plate frame at card size; replace
 
 Section grounds (2026-11-15): Sell uses `inv/1998-toyota-supra-turbo/10.jpg`, About uses `inv/2015-porsche-911-gts/10.jpg`. Both are darkened half-bleeds; the files are the same placeholders as above.
 
+## Client photos (V2, 2026-11-18)
+Supplied by the client through AAN (Dropbox folder "Tarmac Motors Website Assets", 9 JPGs, 138 MB).
+Six are medium-format film scans, three are from a Canon EOS Rebel T3i. Photographer and usage terms
+are **not yet confirmed**: ask the client before launch. The originals stay out of git
+(`assets/img/from client/`, in `.gitignore`); only these web copies are published. They were re-cropped
+and resized (2560px for the hero, 1800px square for half-bleed sections), JPEG q80, and their metadata
+was stripped. Colour is the client's own; the page only quietens it a little with a CSS filter.
+- `client/client-hero-spyder.jpg`: source `IMG_1654`. A silver vintage Porsche race spyder at an old brick barn. **Hero, slide 1.**
+- `client/client-hero-gullwing-drive.jpg`: source `0009` (film). A red Mercedes-Benz 300 SL Gullwing with its doors up on a modernist driveway. **Hero, slide 2** (Alex's pick). Its rear plate is visible: left as shot, never blurred.
+- `client/client-about-cadillac-fin.jpg`: source `0010` (film). The tail fin of a red 1958 Cadillac in exhaust steam, on a wet street. **About Us** (Alex's pick after rejecting the Gullwing-in-the-door, 914, BMW and track frames there).
+- `client/client-sell-bmw-e38.jpg`: source `000065860002-2` (film). A black BMW 7 Series (E38) on a lawn, shot through a steel sculpture. **Sell Your Car**, dimmed (Alex: "tone it down").
+- Not used: `0002` (914 fender detail), `0004` (914 at the pyramid-roof house), `0005` (Gullwing in a garage door), `IMG_1632` (yellow leather interior), `IMG_1770` (a 2020s 911 GT3 Cup race car: off-era, with a fence and sponsor logos; tried in About, replaced).
+- On V2, `gen-hero-911-pass`, `gen-hero-supra-road`, `gen-sell-drive-in` and `gen-about-warehouse` are **no longer used**. Services (`gen-services-studio`) and Storage (`gen-storage-warehouse`) are still generated: no client photo fits them.
+
 ## Generated (synthetic) images
 - `assets/img/site/gen-hero-911-pass.jpg`: **AI-generated**, made with fal-ai/nano-banana-pro/edit on 2026-11-15 from `inv/2015-porsche-911-gts/01.jpg` and `03.jpg`. The 911 GTS is cornering on a wet mountain pass at blue hour. The front plate and its holder were removed in a second AI edit (no blur). Hero slide 1 (Alex: more aggressive, a more expensive-looking car). The prompt is in `gen-hero-911-pass.json`. **Conflicts with the client's "no AI images"** and shows a car that is in the sample inventory. Preview placeholder only: replace it before launch.
 - `assets/img/site/gen-hero-supra-road.jpg`: **AI-generated**, made with fal-ai/nano-banana-pro/edit on 2026-11-15 from `inv/1998-toyota-supra-turbo/01.jpg` and `07.jpg`. The Supra is placed on a summer country road. The prompt and model are in `gen-hero-supra-road.json`. Alex asked for it for the hero; now hero slide 2. **Conflicts with the client's "no AI images"** and shows a car that is in the sample inventory. Preview placeholder only: replace it before launch.

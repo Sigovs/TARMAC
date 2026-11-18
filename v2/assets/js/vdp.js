@@ -113,7 +113,7 @@
   const carfaxHTML = `
     <a class="vdp__carfax" href="${carfaxURL}" target="_blank" rel="noopener">
       <span class="vdp__carfax-brand">
-        <img class="vdp__carfax-logo" src="assets/img/brand/carfax-logo-white.svg?v=20261116f" alt="CARFAX" width="366" height="71">
+        <img class="vdp__carfax-logo" src="assets/img/brand/carfax-logo-white.svg?v=20261118m" alt="CARFAX" width="366" height="71">
         <span class="vdp__carfax-tag">Vehicle History Reports</span>
       </span>
       <span class="vdp__carfax-text"><strong>View the report</strong><span>${esc(car.carfaxNote || 'Accidents, owners, service')}</span></span>

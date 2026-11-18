@@ -8,3 +8,6 @@ build-plan.json
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Client originals (138 MB, photographer file names): only the web copies in v2/assets/img/client/ are published
+assets/img/from client/

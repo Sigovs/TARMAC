@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="assets/css/site.css?v=20261116l">
+  <link rel="stylesheet" href="assets/css/site.css?v=20261118m">
   <!-- Smooth scrolling (Lenis, pinned version). See assets/js/smooth-scroll.js -->
   <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.27/dist/lenis.css">
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/animejs@4.5.0/+esm">
@@ -214,19 +214,19 @@
   <section class="hero overlay__pin" aria-labelledby="hero-title">
     <!-- Hero slides: switched by hand only (prev / next), never autoplay: the client disliked
          autoplay slideshows (Zoom 00:37:17). Crossfade, no sliding. See home.js "hero slides".
-         Both images are GENERATED placeholders (AI edits of our inventory photos), see the .json
-         sidecars. Client asked for no AI images: replace with Tarmac photography or the hero video before launch. -->
+         V2 (2026-11-18): the CLIENT'S OWN PHOTOS (Dropbox "Tarmac Motors Website Assets"), replacing the
+         generated images. Web copies in assets/img/client/, see PROVENANCE.md. -->
     <figure class="hero__media" data-hero-slides>
       <!-- data-title / data-lede: the copy shown with each slide, in the client's own words
            (TikTok bio: "We buy, sell, trade cars worth getting excited about — classics, unique daily drivers, oddballs & everything in between."). -->
-      <img class="hero__slide hero__slide--911 is-active" src="assets/img/site/gen-hero-911-pass.jpg"
+      <img class="hero__slide hero__slide--spyder is-active" src="assets/img/client/client-hero-spyder.jpg"
            data-title="Cars worth getting excited about." data-lede="Classics, unique daily drivers, oddballs and everything in between."
-           alt="Red Porsche 911 Carrera S cornering on a wet mountain road at dusk"
-           width="2560" height="1429" fetchpriority="high">
-      <img class="hero__slide hero__slide--supra" src="assets/img/site/gen-hero-supra-road.jpg"
+           alt="Silver vintage Porsche race spyder in the shadow of an old brick barn"
+           width="2560" height="1841" fetchpriority="high">
+      <img class="hero__slide hero__slide--gullwing" src="assets/img/client/client-hero-gullwing-drive.jpg"
            data-title="Unique daily drivers and oddballs." data-lede="We buy, sell and trade classics and everything in between."
-           alt="Silver Toyota Supra on a winding country road through summer fields"
-           width="2560" height="1429" loading="lazy" aria-hidden="true">
+           alt="Red Mercedes-Benz 300 SL Gullwing with its doors up, on a driveway by a modernist house"
+           width="2200" height="2200" loading="lazy" aria-hidden="true">
     </figure>
 
     <div class="hero__body container">
@@ -292,9 +292,9 @@
   <div class="overlay"><!-- overlay 2: About pins, Sell slides over it as a rounded sheet -->
   <section class="section about has-media overlay__pin" id="about" aria-labelledby="about-title">
     <figure class="section-media section-media--right" aria-hidden="true">
-      <!-- GENERATED placeholder: a generic warehouse car dealer at blue hour, NOT Tarmac's building (see gen-about-warehouse.json).
-           Must be replaced with a photo of the real building before launch: next to the address it reads as their premises. -->
-      <img src="assets/img/site/gen-about-warehouse.jpg" alt="" loading="lazy" width="1800" height="1800">
+      <!-- V2: the client's own photo (tail fin of a red 1958 Cadillac in exhaust steam, wet street, film).
+           Alex's pick for About (2026-11-18), after the Gullwing, 914, BMW and track frames. -->
+      <img src="assets/img/client/client-about-cadillac-fin.jpg" alt="" loading="lazy" width="1800" height="1800">
     </figure>
     <div class="container about__inner">
       <div class="about__copy">
@@ -323,9 +323,8 @@
   <section class="section sell has-media overlay__sheet" id="sell" aria-labelledby="sell-title">
     <!-- Half-bleed photo behind the steps (left), faded into the ground. Placeholder: see PROVENANCE.md -->
     <figure class="section-media section-media--left" aria-hidden="true">
-      <!-- GENERATED placeholder: inside the warehouse, a customer's car driving in through the open door at blue hour
-           (the reverse view of the About image). See assets/img/site/gen-sell-drive-in.json -->
-      <img src="assets/img/site/gen-sell-drive-in.jpg" alt="" loading="lazy" width="1800" height="1800">
+      <!-- V2: the client's own photo (black BMW 7 Series E38 on a lawn, shot through a steel sculpture, film). Alex's pick for Sell. -->
+      <img src="assets/img/client/client-sell-bmw-e38.jpg" alt="" loading="lazy" width="1800" height="1800">
     </figure>
     <div class="container sell__grid">
       <div class="sell__copy">
@@ -546,13 +545,13 @@
   </div>
 </footer>
 
-<script src="assets/js/data.js?v=20261116l"></script>
-<script src="assets/js/home.js?v=20261116l"></script>
+<script src="assets/js/data.js?v=20261118m"></script>
+<script src="assets/js/home.js?v=20261118m"></script>
 <script src="https://unpkg.com/lenis@1.3.27/dist/lenis.min.js"></script>
-<script src="assets/js/smooth-scroll.js?v=20261116l"></script>
-<script src="assets/js/overlays.js?v=20261116l"></script>
+<script src="assets/js/smooth-scroll.js?v=20261118m"></script>
+<script src="assets/js/overlays.js?v=20261118m"></script>
 <!-- Page motion (Anime.js 4.5.0, ES module). If it hasn't started after 2.5 s, show the static page. -->
-<script type="module" src="assets/js/motion.js?v=20261116l"></script>
+<script type="module" src="assets/js/motion.js?v=20261118m"></script>
 <script>
   setTimeout(function () {
     if (!document.documentElement.classList.contains('anime-on')) document.documentElement.classList.remove('js-motion');
